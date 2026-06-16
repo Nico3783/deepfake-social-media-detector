@@ -1,0 +1,51 @@
+# Inference Configuration
+# Source: PROJECT_DOCUMENT.md - Methodology section
+# Research Traceability:
+#   Research Objective: Real-time deepfake detection inference
+#   Methodology: Frame-level and video-level classification
+#   Implementation: configs/inference.yaml
+
+inference:
+  # Model loading
+  model:
+    checkpoint_path: "outputs/checkpoints/best_model.pth"
+    model_name: "xception"  # xception or efficientnet
+    device: "auto"
+    num_classes: 2
+    class_names: ["real", "fake"]
+
+  # Video processing
+  video:
+    frame_sampling_rate: 1  # Extract every Nth frame
+    max_frames: 300  # Maximum frames to process per video
+    batch_size: 16
+    confidence_threshold: 0.5
+
+  # Video-level classification
+  video_level:
+    aggregation_method: "mean"  # mean, median, max, voting
+    confidence_threshold: 0.5
+    temporal_smoothing: false
+    smoothing_window: 5
+
+  # Face detection
+  face_detection:
+    method: "mtcnn"
+    confidence_threshold: 0.9
+    min_face_size: 40
+    margin: 20
+
+  # Preprocessing
+  preprocessing:
+    image_size: 299  # 299 for Xception, 224 for EfficientNet
+    normalization:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+
+  # Output
+  output:
+    save_results: true
+    results_dir: "outputs/inference"
+    output_format: "json"  # json, csv
+    include_confidence: true
+    include_frames: false  # Include extracted frames in output

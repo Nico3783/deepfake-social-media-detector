@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# Datasets (large files, not for version control)
+datasets/raw/
+datasets/interim/
+datasets/processed/
+*.zip
+*.tar.gz
+
+# Model checkpoints and outputs
+outputs/models/*.pt
+outputs/models/*.pth
+outputs/models/checkpoints/
+outputs/metrics/*.json
+outputs/reports/*.pdf
+outputs/predictions/
+outputs/logs/
+
+# Experiments
+experiments/**/checkpoints/
+experiments/**/logs/
+experiments/**/models/
+
+# Reports
+reports/figures/*.png
+reports/figures/*.pdf
+reports/screenshots/
+reports/final_project_report/
+
+# Temporary files
+*.tmp
+*.log
+tmp/
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+#pytest
+.pytest_cache/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# mypy
+.mypy_cache/

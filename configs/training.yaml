@@ -1,0 +1,86 @@
+# Training Configuration
+# Source: PROJECT_DOCUMENT.md - Methodology section
+# Research Traceability:
+#   Research Objective: Deep learning model training with reproducibility
+#   Methodology: Adam optimizer, cross-entropy loss, data augmentation
+#   Implementation: configs/training.yaml
+
+training:
+  # General training settings
+  general:
+    seed: 42
+    deterministic: true
+    max_epochs: 50
+    patience: 10  # Early stopping patience
+    min_delta: 0.001  # Minimum improvement for early stopping
+    gradient_clip_norm: 1.0
+    mixed_precision: true
+
+  # Optimizer configuration
+  optimizer:
+    name: "adam"
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1e-08
+    amsgrad: false
+
+  # Learning rate scheduler
+  scheduler:
+    name: "ReduceLROnPlateau"
+    mode: "min"
+    factor: 0.1
+    patience: 5
+    threshold: 0.0001
+    min_lr: 0.00001
+    verbose: true
+
+  # Loss function
+  loss:
+    name: "CrossEntropyLoss"
+    label_smoothing: 0.1
+    class_weights: null  # null for balanced, or [1.0, 1.0]
+
+  # Data augmentation
+  augmentation:
+    enabled: true
+    train:
+      horizontal_flip: 0.5
+      rotation_range: 15
+      width_shift_range: 0.1
+      height_shift_range: 0.1
+      zoom_range: 0.1
+      brightness_range: [0.8, 1.2]
+      contrast_range: [0.8, 1.2]
+      jpeg_quality_range: [75, 100]
+    val:
+      # No augmentation for validation
+      enabled: false
+    test:
+      # No augmentation for test
+      enabled: false
+
+  # Batch size
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+
+  # Checkpointing
+  checkpointing:
+    enabled: true
+    save_dir: "outputs/checkpoints"
+    save_best: true
+    save_last: true
+    monitor: "val_loss"
+    mode: "min"
+    save_top_k: 3
+
+  # Logging
+  logging:
+    enabled: true
+    log_dir: "outputs/logs"
+    log_every_n_steps: 10
+    log_grad_norms: false
+
+  # Device
+  device: "auto"  # auto, cuda, cpu

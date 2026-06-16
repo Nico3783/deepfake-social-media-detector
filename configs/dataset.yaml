@@ -1,0 +1,72 @@
+# Dataset Configuration
+# Source: PROJECT_DOCUMENT.md - Datasets section
+# Research Traceability:
+#   Research Objective: Robust deepfake detection across multiple manipulation methods
+#   Methodology: FaceForensics++ and Celeb-DF as benchmark datasets
+#   Implementation: configs/dataset.yaml
+
+dataset:
+  # FaceForensics++ dataset configuration
+  faceforensics:
+    name: "FaceForensics++"
+    root_dir: "data/faceforensics++"
+    video_dirs:
+      real: "real"
+      manipulated: "manipulated"
+    manipulation_methods:
+      - "Deepfakes"
+      - "Face2Face"
+      - "FaceSwap"
+      - "NeuralTextures"
+    compression_levels:
+      original: "c0"
+      low_compression: "c23"
+      high_compression: "c40"
+    split_ratios:
+      train: 0.7
+      val: 0.15
+      test: 0.15
+    metadata_file: "data/faceforensics++/metadata.csv"
+
+  # Celeb-DF dataset configuration
+  celebdf:
+    name: "Celeb-DF"
+    root_dir: "data/celeb-df"
+    video_dirs:
+      real: "Celeb-real"
+      fake: "Celeb-synthesis"
+    split_ratios:
+      train: 0.7
+      val: 0.15
+      test: 0.15
+    metadata_file: "data/celeb-df/evaluation.csv"
+
+  # Combined dataset settings
+  combined:
+    enabled: true
+    datasets:
+      - "faceforensics"
+      - "celebdf"
+    merge_strategy: "concatenate"
+    class_mapping:
+      real: 0
+      fake: 1
+
+  # Data loading settings
+  loading:
+    num_workers: 4
+    pin_memory: true
+    persistent_workers: true
+    prefetch_factor: 2
+
+  # Image preprocessing
+  preprocessing:
+    image_size: 299
+    normalization:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    face_detection:
+      method: "mtcnn"
+      confidence_threshold: 0.9
+      min_face_size: 40
+      margin: 20

@@ -1,0 +1,44 @@
+# EfficientNet Model Configuration
+# Source: PROJECT_DOCUMENT.md - Methodology section
+# Research Traceability:
+#   Research Objective: Secondary CNN architecture for deepfake detection
+#   Methodology: EfficientNet with compound scaling, transfer learning
+#   Implementation: configs/efficientnet.yaml
+
+model:
+  name: "EfficientNet"
+  architecture:
+    variant: "B0"  # B0-B7, B0 is smallest/fastest
+    num_classes: 2
+    input_channels: 3
+    pretrained: true
+    weights: "imagenet"
+    dropout_rate: 0.2
+    drop_connect_rate: 0.2
+
+  # Transfer learning configuration
+  transfer_learning:
+    enabled: true
+    strategy: "feature_extraction"
+    freeze_base: true
+    unfreeze_from: -10
+
+  # Architecture details
+  # EfficientNet-B0: ~5.3M parameters, 0.39 GFLOPs
+  # EfficientNet-B1: ~7.8M parameters, 0.70 GFLOPs
+  # EfficientNet-B2: ~9.2M parameters, 1.00 GFLOPs
+  # Uses MBConv blocks with squeeze-and-excitation
+  architecture_notes: |
+    EfficientNet uses compound scaling (width, depth, resolution):
+    1. MBConv1 - inverted residual with SE attention
+    2. MBConv6 - expanded inverted residual with SE attention
+    3. Head - global average pooling + FC
+    Input: 224x224x3 (RGB)
+    Output: 2-class (real/fake) logits
+
+  # EfficientNet-B0 specific scaling factors
+  scaling:
+    width_coefficient: 1.0
+    depth_coefficient: 1.0
+    resolution: 224
+    dropout_rate: 0.2

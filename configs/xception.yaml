@@ -1,0 +1,36 @@
+# XceptionNet Model Configuration
+# Source: PROJECT_DOCUMENT.md - Methodology section
+# Research Traceability:
+#   Research Objective: Primary CNN architecture for deepfake detection
+#   Methodology: XceptionNet with depthwise separable convolutions, transfer learning
+#   Implementation: configs/xception.yaml
+
+model:
+  name: "XceptionNet"
+  architecture:
+    num_classes: 2
+    input_channels: 3
+    input_size: 299
+    pretrained: true
+    weights: "imagenet"
+    dropout_rate: 0.5
+    freeze_layers: 0  # Number of initial layers to freeze for transfer learning
+
+  # Transfer learning configuration
+  transfer_learning:
+    enabled: true
+    strategy: "feature_extraction"  # "feature_extraction" or "fine_tuning"
+    freeze_base: true
+    unfreeze_from: -10  # Unfreeze last N layers
+
+  # Architecture details
+  # XceptionNet: 36 convolutional layers + 14 depthwise separable convolutions
+  # Total parameters: ~22.8M
+  # Input: 299x299x3 (RGB)
+  # Output: 2-class (real/fake) logits
+  architecture_notes: |
+    XceptionNet uses depthwise separable convolutions:
+    1. Entry flow (3 blocks) - initial feature extraction
+    2. Middle flow (8 blocks) - feature refinement
+    3. Exit flow (2 blocks) - classification
+    Each block has residual connections and batch normalization.
