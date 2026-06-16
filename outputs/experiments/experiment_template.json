@@ -1,0 +1,57 @@
+{
+  "experiment_id": "xception_faceforensics_001",
+  "model_type": "xception",
+  "dataset": "faceforensics",
+  "dataset_version": "v1.0",
+  "status": "completed",
+  "created_at": "2024-01-15T10:30:00",
+  "completed_at": "2024-01-15T14:45:00",
+  "training_time": "4h 15m",
+  "epochs_completed": 50,
+  "config": {
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "optimizer": "adam",
+    "weight_decay": 0.0001,
+    "image_size": 299,
+    "early_stopping_patience": 10,
+    "label_smoothing": 0.1,
+    "random_seed": 42
+  },
+  "hardware": {
+    "gpu": "NVIDIA RTX 3080",
+    "gpu_memory": "10GB",
+    "ram": "32GB",
+    "cpu": "AMD Ryzen 9 5900X"
+  },
+  "metrics": {
+    "accuracy": 0.9456,
+    "precision": 0.9512,
+    "recall": 0.9398,
+    "f1_score": 0.9455,
+    "roc_auc": 0.9823,
+    "specificity": 0.9514,
+    "sensitivity": 0.9398
+  },
+  "training_history": {
+    "train_loss": [0.6931, 0.5234, 0.4123, 0.3567, 0.3123, 0.2876, 0.2654, 0.2489, 0.2345, 0.2234],
+    "val_loss": [0.6845, 0.5123, 0.4234, 0.3678, 0.3234, 0.2987, 0.2765, 0.2654, 0.2543, 0.2432],
+    "train_acc": [0.5234, 0.7123, 0.7890, 0.8234, 0.8567, 0.8789, 0.8912, 0.9023, 0.9123, 0.9234],
+    "val_acc": [0.5345, 0.7234, 0.7901, 0.8345, 0.8678, 0.8890, 0.9012, 0.9123, 0.9234, 0.9345],
+    "learning_rate": [0.001, 0.001, 0.001, 0.0008, 0.0008, 0.0006, 0.0006, 0.0004, 0.0004, 0.0002]
+  },
+  "confusion_matrix": {
+    "true_positive": 945,
+    "false_positive": 48,
+    "true_negative": 951,
+    "false_negative": 56
+  },
+  "dataset_info": {
+    "train_samples": 100000,
+    "val_samples": 20000,
+    "test_samples": 20000,
+    "classes": ["real", "fake"],
+    "manipulation_methods": ["Deepfakes", "Face2Face", "FaceSwap", "NeuralTextures"]
+  },
+  "notes": "Baseline XceptionNet model on FaceForensics++ dataset. Good performance across all manipulation methods."
+}
