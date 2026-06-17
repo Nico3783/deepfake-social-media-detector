@@ -1,0 +1,139 @@
+# Training Flow Diagram
+
+```xml
+<mxfile host="app.diagrams.net" modified="2024-01-15T10:00:00.000Z" agent="5.0" version="22.0.0">
+  <diagram id="training-flow" name="Training Flow">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Start -->
+        <mxCell id="2" value="Start Training" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="20" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Load Config -->
+        <mxCell id="3" value="Load Configuration&#xa;(YAML)" style="shape=process;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Initialize Model -->
+        <mxCell id="4" value="Initialize Model&#xa;(Transfer Learning)" style="shape=process;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="150" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Load Data -->
+        <mxCell id="5" value="Load Datasets&#xa;(Train/Val)" style="shape=process;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Epoch Loop -->
+        <mxCell id="6" value="Epoch Loop" style="shape=process;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="290" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Training Phase -->
+        <mxCell id="7" value="Training Phase" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="350" width="250" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Set model.train()" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="7">
+          <mxGeometry x="10" y="30" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="For each batch:" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="7">
+          <mxGeometry x="10" y="70" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="Forward pass → Loss → Backward" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="7">
+          <mxGeometry x="10" y="110" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="Update optimizer" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="7">
+          <mxGeometry x="10" y="150" width="230" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Validation Phase -->
+        <mxCell id="12" value="Validation Phase" style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="350" width="250" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Set model.eval()" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="12">
+          <mxGeometry x="10" y="30" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="For each batch:" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="12">
+          <mxGeometry x="10" y="70" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Forward pass → Compute metrics" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="12">
+          <mxGeometry x="10" y="110" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Accumulate metrics" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="12">
+          <mxGeometry x="10" y="150" width="230" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Scheduler -->
+        <mxCell id="17" value="LR Scheduler Step" style="shape=process;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="570" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Early Stopping Check -->
+        <mxCell id="18" value="Val Loss &lt; Best?" style="shape=decision;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="455" y="630" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Save Checkpoint -->
+        <mxCell id="19" value="Save Checkpoint" style="shape=process;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="650" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Check Patience -->
+        <mxCell id="20" value="Patience Reached?" style="shape=decision;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="650" y="630" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="21" value="Training Complete" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="740" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="2" target="3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="3" target="4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="4" target="5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="5" target="6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="6" target="7" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="7" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="12" target="17" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="17" target="18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Yes" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;fontSize=10;" edge="1" source="18" target="19" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="No" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;fontSize=10;" edge="1" source="18" target="20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="No" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;fontSize=10;" edge="1" source="20" target="6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;fontSize=10;" edge="1" source="20" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;" edge="1" source="19" target="20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+```

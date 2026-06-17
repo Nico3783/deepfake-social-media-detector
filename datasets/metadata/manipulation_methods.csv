@@ -1,0 +1,8 @@
+method_id,method_name,dataset,description,manipulation_type
+0,original,faceforensics,Original unaltered videos,None
+1,Deepfakes,faceforensics,Autoencoder-based face swapping,face_swap
+2,Face2Face,faceforensics,Neural face reenactment,face_reenactment
+3,FaceSwap,faceforensics,3D model-based face swapping,face_swap
+4,NeuralTextures,faceforensics,Neural texture manipulation,texture_manipulation
+5,Celeb-real,celebdf,Real celebrity videos from YouTube,None
+6,Celeb-synthesis,celebdf,Deepfake celebrity videos,face_swap

@@ -1,0 +1,87 @@
+# Use Case Diagram
+
+```xml
+<mxfile host="app.diagrams.net" modified="2024-01-15T10:00:00.000Z" agent="5.0" version="22.0.0">
+  <diagram id="use-case" name="Use Case Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- System Boundary -->
+        <mxCell id="2" value="Deepfake Detection System" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="250" y="40" width="600" height="600" as="geometry" />
+        </mxCell>
+
+        <!-- Actors -->
+        <mxCell id="3" value="Researcher" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="200" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="End User" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Administrator" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="540" width="60" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Use Cases -->
+        <mxCell id="10" value="Train Detection Model" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="50" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="Evaluate Model Performance" style="ellipse;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="130" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="Analyze Detection Results" style="ellipse;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="210" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Upload Video for Analysis" style="ellipse;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="300" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="View Prediction Results" style="ellipse;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="380" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Monitor System Health" style="ellipse;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="400" y="50" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Manage Model Deployment" style="ellipse;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="400" y="130" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="Upload Image for Analysis" style="ellipse;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="2">
+          <mxGeometry x="80" y="460" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Associations -->
+        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="3" target="10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="3" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="3" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="4" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="4" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="4" target="17" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="5" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="5" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Includes -->
+        <mxCell id="i1" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;fontSize=9;" edge="1" source="13" target="14" parent="2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+```

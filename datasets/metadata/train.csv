@@ -1,0 +1,15 @@
+video_id,split,dataset,label,manipulation_method,resolution,fps,duration_seconds,frame_count,file_size_mb
+ff_000_0001,train,faceforensics,real,original,1080p,30.0,15.2,456,45.2
+ff_000_0002,train,faceforensics,real,original,1080p,30.0,12.8,384,38.5
+ff_001_0001,train,faceforensics,fake,Deepfakes,1080p,30.0,14.5,435,42.1
+ff_001_0002,train,faceforensics,fake,Deepfakes,1080p,30.0,16.1,483,48.3
+ff_002_0001,train,faceforensics,fake,Face2Face,1080p,30.0,13.9,417,40.8
+ff_002_0002,train,faceforensics,fake,Face2Face,1080p,30.0,15.0,450,43.5
+ff_003_0001,train,faceforensics,fake,FaceSwap,1080p,30.0,15.8,474,46.5
+ff_003_0002,train,faceforensics,fake,FaceSwap,1080p,30.0,14.2,426,41.2
+ff_004_0001,train,faceforensics,fake,NeuralTextures,1080p,30.0,14.2,426,41.2
+ff_004_0002,train,faceforensics,fake,NeuralTextures,1080p,30.0,13.5,405,39.8
+cd_000_0001,train,celebdf,real,Celeb-real,1080p,30.0,18.5,555,52.8
+cd_000_0002,train,celebdf,real,Celeb-real,1080p,30.0,17.2,516,49.5
+cd_001_0001,train,celebdf,fake,Celeb-synthesis,1080p,30.0,17.9,537,50.2
+cd_001_0002,train,celebdf,fake,Celeb-synthesis,1080p,30.0,16.8,504,47.8

@@ -1,0 +1,8 @@
+video_id,split,dataset,label,manipulation_method,resolution,fps,duration_seconds,frame_count,file_size_mb
+ff_000_0003,val,faceforensics,real,original,1080p,30.0,14.1,423,41.5
+ff_001_0003,val,faceforensics,fake,Deepfakes,1080p,30.0,13.8,414,40.2
+ff_002_0003,val,faceforensics,fake,Face2Face,1080p,30.0,14.5,435,42.1
+ff_003_0003,val,faceforensics,fake,FaceSwap,1080p,30.0,13.2,396,38.5
+ff_004_0003,val,faceforensics,fake,NeuralTextures,1080p,30.0,14.8,444,43.2
+cd_000_0003,val,celebdf,real,Celeb-real,1080p,30.0,16.5,495,47.2
+cd_001_0003,val,celebdf,fake,Celeb-synthesis,1080p,30.0,15.9,477,45.5
