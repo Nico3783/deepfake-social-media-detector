@@ -1,144 +1,106 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2026-02-25T10:00:00.000Z" agent="drawio" version="21.0.0" type="device">
-  <diagram id="system-architecture" name="System Architecture">
-    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <!-- Title -->
-        <mxCell id="title" value="DEEPFAKE DETECTION SYSTEM — HIGH-LEVEL ARCHITECTURE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
-          <mxGeometry x="250" y="10" width="500" height="30" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 1: Data Layer -->
-        <mxCell id="layer1_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1E88E5;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="350" y="60" width="300" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="layer1_label" value="LAYER 1 — DATA LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1E88E5;" vertex="1" parent="1">
-          <mxGeometry x="430" y="50" width="150" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="layer1_box" value="FaceForensics++ &amp; Celeb-DF Datasets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="385" y="70" width="230" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 1→2 -->
-        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer1_box" target="layer2_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 2: Preprocessing Layer -->
-        <mxCell id="layer2_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="200" y="160" width="600" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="layer2_label" value="LAYER 2 — PREPROCESSING LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#43A047;" vertex="1" parent="1">
-          <mxGeometry x="430" y="150" width="180" height="20" as="geometry" />
-        </mxCell>
-
-        <!-- Frame Extractor -->
-        <mxCell id="frame_ext" value="Frame&#xa;Extractor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="225" y="178" width="100" height="50" as="geometry" />
-        </mxCell>
-        <!-- Face Detector -->
-        <mxCell id="face_det" value="Face&#xa;Detector" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="355" y="178" width="100" height="50" as="geometry" />
-        </mxCell>
-        <!-- Face Cropper -->
-        <mxCell id="face_crop" value="Face&#xa;Cropper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="485" y="178" width="100" height="50" as="geometry" />
-        </mxCell>
-        <!-- Normalization -->
-        <mxCell id="normalize" value="Image&#xa;Normalization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="615" y="178" width="110" height="50" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 2→3 -->
-        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer2_bg" target="layer3_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 3: Feature Learning Layer -->
-        <mxCell id="layer3_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FB8C00;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="250" y="280" width="500" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="layer3_label" value="LAYER 3 — FEATURE LEARNING LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FB8C00;" vertex="1" parent="1">
-          <mxGeometry x="430" y="270" width="180" height="20" as="geometry" />
-        </mxCell>
-
-        <!-- XceptionNet -->
-        <mxCell id="xception" value="XceptionNet&#xa;(Primary, 299×299)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="275" y="298" width="160" height="50" as="geometry" />
-        </mxCell>
-        <!-- EfficientNet -->
-        <mxCell id="efficientnet" value="EfficientNet-B0&#xa;(Secondary, 224×224)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="505" y="298" width="160" height="50" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 3→4 -->
-        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer3_bg" target="layer4_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 4: Classification Layer -->
-        <mxCell id="layer4_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#E53935;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="325" y="400" width="350" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="layer4_label" value="LAYER 4 — CLASSIFICATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#E53935;" vertex="1" parent="1">
-          <mxGeometry x="430" y="390" width="170" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="classifier" value="Binary Classification Head (Real / Fake)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E53935;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="375" y="410" width="250" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 4→5 -->
-        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer4_bg" target="layer5_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 5: Aggregation Layer -->
-        <mxCell id="layer5_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#8E24AA;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="325" y="500" width="350" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="layer5_label" value="LAYER 5 — AGGREGATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#8E24AA;" vertex="1" parent="1">
-          <mxGeometry x="435" y="490" width="160" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="aggregator" value="Video-Level Aggregation (Mean / Majority / Confidence)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8E24AA;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="355" y="510" width="290" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 5→6 -->
-        <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer5_bg" target="layer6_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 6: Evaluation Layer -->
-        <mxCell id="layer6_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F7FA;strokeColor=#00897B;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="300" y="600" width="400" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="layer6_label" value="LAYER 6 — EVALUATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#00897B;" vertex="1" parent="1">
-          <mxGeometry x="440" y="590" width="150" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="evaluator" value="Accuracy | Precision | Recall | F1-Score | ROC-AUC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00897B;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="340" y="610" width="320" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow 6→7 -->
-        <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="layer6_bg" target="layer7_bg">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Layer 7: Deployment Layer -->
-        <mxCell id="layer7_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="325" y="700" width="350" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="layer7_label" value="LAYER 7 — DEPLOYMENT LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#F9A825;" vertex="1" parent="1">
-          <mxGeometry x="435" y="690" width="150" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="deployer" value="FastAPI Inference Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9A825;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="400" y="710" width="200" height="40" as="geometry" />
-        </mxCell>
-
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="65bd71144e">
+    <diagram id="system-architecture" name="System Architecture">
+        <mxGraphModel dx="1045" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="DEEPFAKE DETECTION SYSTEM — HIGH-LEVEL ARCHITECTURE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="10" width="500" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1E88E5;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="50" width="300" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_label" value="LAYER 1 — DATA LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1E88E5;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="50" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer1_box" value="FaceForensics++ &amp; Celeb-DF Datasets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="385" y="70" width="230" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer1_box" target="layer2_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer2_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="150" width="600" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer2_label" value="LAYER 2 — PREPROCESSING LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#43A047;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="150" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="frame_ext" value="Frame&#xa;Extractor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="225" y="178" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="face_det" value="Face&#xa;Detector" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="355" y="178" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="face_crop" value="Face&#xa;Cropper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="485" y="178" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="normalize" value="Image&#xa;Normalization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="615" y="178" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer2_bg" target="layer3_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer3_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FB8C00;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="270" width="500" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer3_label" value="LAYER 3 — FEATURE LEARNING LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FB8C00;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="270" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="xception" value="XceptionNet&#xa;(Primary, 299×299)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="275" y="298" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="efficientnet" value="EfficientNet-B0&#xa;(Secondary, 224×224)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="505" y="298" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer3_bg" target="layer4_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer4_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#E53935;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="325" y="390" width="350" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer4_label" value="LAYER 4 — CLASSIFICATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#E53935;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="390" width="170" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="classifier" value="Binary Classification Head (Real / Fake)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E53935;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="375" y="410" width="250" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer4_bg" target="layer5_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer5_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#8E24AA;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="325" y="490" width="350" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer5_label" value="LAYER 5 — AGGREGATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#8E24AA;" parent="1" vertex="1">
+                    <mxGeometry x="435" y="490" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="aggregator" value="Video-Level Aggregation (Mean / Majority / Confidence)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8E24AA;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="355" y="510" width="290" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer5_bg" target="layer6_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer6_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F7FA;strokeColor=#00897B;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="590" width="400" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer6_label" value="LAYER 6 — EVALUATION LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#00897B;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="590" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="evaluator" value="Accuracy | Precision | Recall | F1-Score | ROC-AUC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00897B;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="610" width="320" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="layer6_bg" target="layer7_bg" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer7_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="325" y="690" width="350" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer7_label" value="LAYER 7 — DEPLOYMENT LAYER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#F9A825;" parent="1" vertex="1">
+                    <mxGeometry x="435" y="690" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="deployer" value="FastAPI Inference Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9A825;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="710" width="200" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
 </mxfile>

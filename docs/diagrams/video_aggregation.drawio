@@ -1,105 +1,85 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2026-02-25T10:30:00.000Z" agent="drawio" version="21.0.0" type="device">
-  <diagram id="video-aggregation" name="Video-Level Aggregation">
-    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-
-        <!-- Title -->
-        <mxCell id="title" value="VIDEO-LEVEL AGGREGATION METHODS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
-          <mxGeometry x="340" y="10" width="320" height="30" as="geometry" />
-        </mxCell>
-
-        <!-- Frame Predictions -->
-        <mxCell id="frames" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1E88E5;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="350" y="60" width="300" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="frames_title" value="FRAME-LEVEL PREDICTIONS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1E88E5;" vertex="1" parent="1">
-          <mxGeometry x="400" y="50" width="200" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="frames_detail" value="[0.92, 0.85, 0.78, 0.91, 0.88, 0.83, 0.90, 0.87, 0.82, 0.86]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" vertex="1" parent="1">
-          <mxGeometry x="370" y="80" width="260" height="16" as="geometry" />
-        </mxCell>
-        <mxCell id="frames_detail2" value="N frame probabilities (e.g., N=10)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" vertex="1" parent="1">
-          <mxGeometry x="400" y="100" width="200" height="16" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow -->
-        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="frames" target="methods">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Methods Container -->
-        <mxCell id="methods" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BDBDBD;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="100" y="160" width="800" height="250" as="geometry" />
-        </mxCell>
-        <mxCell id="methods_title" value="AGGREGATION METHODS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
-          <mxGeometry x="430" y="165" width="160" height="20" as="geometry" />
-        </mxCell>
-
-        <!-- Method 1: Mean Probability -->
-        <mxCell id="mean" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="120" y="200" width="220" height="190" as="geometry" />
-        </mxCell>
-        <mxCell id="mean_title" value="MEAN PROBABILITY" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="165" y="205" width="130" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="mean_formula" value="P(video) = (1/N) × Σ P(frame_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#E8F5E9;" vertex="1" parent="1">
-          <mxGeometry x="140" y="235" width="180" height="16" as="geometry" />
-        </mxCell>
-        <mxCell id="mean_desc" value="Average all frame&#xa;prediction scores" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="170" y="260" width="120" height="32" as="geometry" />
-        </mxCell>
-        <mxCell id="mean_example" value="Example:&#xa;avg(0.92,0.85,0.78)&#xa;= 0.85 → FAKE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#C8E6C9;" vertex="1" parent="1">
-          <mxGeometry x="155" y="305" width="150" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Method 2: Majority Voting -->
-        <mxCell id="majority" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="380" y="200" width="220" height="190" as="geometry" />
-        </mxCell>
-        <mxCell id="majority_title" value="MAJORITY VOTING" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="425" y="205" width="130" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="majority_formula" value="P(video) = mode(label_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#BBDEFB;" vertex="1" parent="1">
-          <mxGeometry x="405" y="235" width="170" height="16" as="geometry" />
-        </mxCell>
-        <mxCell id="majority_desc" value="Most frequent&#xa;frame prediction" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="425" y="260" width="120" height="32" as="geometry" />
-        </mxCell>
-        <mxCell id="majority_example" value="Example:&#xa;[F,F,F,F,F,R,R,R,R,R]&#xa;→ 5F vs 5R → TIE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#BBDEFB;" vertex="1" parent="1">
-          <mxGeometry x="400" y="305" width="170" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Method 3: Confidence Weighting -->
-        <mxCell id="confidence" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="640" y="200" width="220" height="190" as="geometry" />
-        </mxCell>
-        <mxCell id="confidence_title" value="CONFIDENCE WEIGHTING" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="675" y="205" width="150" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="confidence_formula" value="P(video) = Σ w_i × P(frame_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#FFF3E0;" vertex="1" parent="1">
-          <mxGeometry x="660" y="235" width="180" height="16" as="geometry" />
-        </mxCell>
-        <mxCell id="confidence_desc" value="Weight by prediction&#xa;confidence" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" vertex="1" parent="1">
-          <mxGeometry x="680" y="260" width="140" height="32" as="geometry" />
-        </mxCell>
-        <mxCell id="confidence_example" value="Example:&#xa;High-conf frames&#xa;get more weight" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#FFE0B2;" vertex="1" parent="1">
-          <mxGeometry x="670" y="305" width="160" height="40" as="geometry" />
-        </mxCell>
-
-        <!-- Arrow -->
-        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="methods" target="output">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-
-        <!-- Output -->
-        <mxCell id="output" value="Video-Level Prediction: Real (0.15) / Fake (0.85)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A2E;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
-          <mxGeometry x="320" y="440" width="360" height="40" as="geometry" />
-        </mxCell>
-
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="65bd71144e">
+    <diagram id="video-aggregation" name="Video-Level Aggregation">
+        <mxGraphModel dx="1045" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="VIDEO-LEVEL AGGREGATION METHODS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="10" width="320" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="frames" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1E88E5;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="58" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="frames_title" value="FRAME-LEVEL PREDICTIONS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1E88E5;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="60" width="200" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="frames_detail" value="[0.92, 0.85, 0.78, 0.91, 0.88, 0.83, 0.90, 0.87, 0.82, 0.86]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" parent="1" vertex="1">
+                    <mxGeometry x="370" y="80" width="260" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="frames_detail2" value="N frame probabilities (e.g., N=10)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="100" width="200" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="frames" target="methods" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="methods" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BDBDBD;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="160" width="800" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="methods_title" value="AGGREGATION METHODS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#1A1A2E;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="165" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="mean" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="200" width="220" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="mean_title" value="MEAN PROBABILITY" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="165" y="205" width="130" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="mean_formula" value="P(video) = (1/N) × Σ P(frame_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#E8F5E9;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="235" width="180" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="mean_desc" value="Average all frame&#xa;prediction scores" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="260" width="120" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="mean_example" value="Example:&#xa;avg(0.92,0.85,0.78)&#xa;= 0.85 → FAKE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#C8E6C9;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="305" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="majority" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="200" width="220" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="majority_title" value="MAJORITY VOTING" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="425" y="205" width="130" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="majority_formula" value="P(video) = mode(label_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#BBDEFB;" parent="1" vertex="1">
+                    <mxGeometry x="405" y="235" width="170" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="majority_desc" value="Most frequent&#xa;frame prediction" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="425" y="260" width="120" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="majority_example" value="Example:&#xa;[F,F,F,F,F,R,R,R,R,R]&#xa;→ 5F vs 5R → TIE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#BBDEFB;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="305" width="170" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="confidence" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="200" width="220" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="confidence_title" value="CONFIDENCE WEIGHTING" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="675" y="205" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="confidence_formula" value="P(video) = Σ w_i × P(frame_i)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=0;fontColor=#FFF3E0;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="235" width="180" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="confidence_desc" value="Weight by prediction&#xa;confidence" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="260" width="140" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="confidence_example" value="Example:&#xa;High-conf frames&#xa;get more weight" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#FFE0B2;" parent="1" vertex="1">
+                    <mxGeometry x="670" y="305" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" parent="1" source="methods" target="output" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="output" value="Video-Level Prediction: Real (0.15) / Fake (0.85)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A2E;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="440" width="360" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
 </mxfile>
