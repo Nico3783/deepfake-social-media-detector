@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1080.0 580.0" width="1080.0" height="580.0">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666666"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="1080.0" height="580.0" fill="#FFFFFF"/>
+<rect x="370.0" y="40.0" width="320.0" height="30.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="55.0" text-anchor="middle" font-size="16" font-weight="bold" font-style="normal" fill="#1A1A2E" font-family="Arial, Helvetica, sans-serif">XCEPTIONNET ARCHITECTURE (PRIMARY MODEL)</text>
+<rect x="430.0" y="85.0" width="200.0" height="40.0" rx="2.4" ry="2.4" fill="#616161" stroke="none" stroke-width="1"/>
+<text x="530.0" y="105.0" text-anchor="middle" font-size="12" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">Input: 299 × 299 × 3</text>
+<rect x="430.0" y="140.0" width="200.0" height="50.0" rx="2.0" ry="2.0" fill="#1E88E5" stroke="none" stroke-width="1"/>
+<rect x="480.0" y="145.0" width="100.0" height="20.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="155.0" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">ENTRY FLOW</text>
+<rect x="450.0" y="165.0" width="160.0" height="24.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="165.3" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E3F2FD" font-family="Arial, Helvetica, sans-serif">Conv 3×3/2 → BN →</text>
+<text x="530.0" y="177.0" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E3F2FD" font-family="Arial, Helvetica, sans-serif">ReLU Conv 3×3 → BN →</text>
+<text x="530.0" y="188.70000000000002" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E3F2FD" font-family="Arial, Helvetica, sans-serif">ReLU</text>
+<rect x="380.0" y="210.0" width="300.0" height="70.0" rx="2.8" ry="2.8" fill="#FB8C00" stroke="none" stroke-width="1"/>
+<rect x="400.0" y="215.0" width="260.0" height="20.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="218.5" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">MIDDLE FLOW (8 × SeparableConv</text>
+<text x="530.0" y="231.5" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">Blocks)</text>
+<rect x="415.0" y="240.0" width="200.0" height="28.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="515.0" y="242.3" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#FFF3E0" font-family="Arial, Helvetica, sans-serif">Depthwise Separable</text>
+<text x="515.0" y="254.0" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#FFF3E0" font-family="Arial, Helvetica, sans-serif">Convolution Spatial +</text>
+<text x="515.0" y="265.7" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#FFF3E0" font-family="Arial, Helvetica, sans-serif">Channel Feature Learning</text>
+<rect x="405.0" y="265.0" width="220.0" height="16.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="515.0" y="267.15" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#FFF3E0" font-family="Arial, Helvetica, sans-serif">Residual Connections ·</text>
+<text x="515.0" y="278.84999999999997" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#FFF3E0" font-family="Arial, Helvetica, sans-serif">Batch Normalization</text>
+<rect x="430.0" y="305.0" width="200.0" height="50.0" rx="2.0" ry="2.0" fill="#43A047" stroke="none" stroke-width="1"/>
+<rect x="480.0" y="310.0" width="100.0" height="20.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="320.0" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">EXIT FLOW</text>
+<rect x="455.0" y="330.0" width="150.0" height="24.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="530.0" y="330.3" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E8F5E9" font-family="Arial, Helvetica, sans-serif">Conv 1×1 → BN →</text>
+<text x="530.0" y="342.0" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E8F5E9" font-family="Arial, Helvetica, sans-serif">ReLU Global</text>
+<text x="530.0" y="353.7" text-anchor="middle" font-size="9" font-weight="normal" font-style="normal" fill="#E8F5E9" font-family="Arial, Helvetica, sans-serif">Average Pooling</text>
+<rect x="450.0" y="380.0" width="160.0" height="40.0" rx="2.4" ry="2.4" fill="#E53935" stroke="none" stroke-width="1"/>
+<text x="530.0" y="400.0" text-anchor="middle" font-size="12" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">Dropout (0.5)</text>
+<rect x="440.0" y="445.0" width="180.0" height="40.0" rx="2.4" ry="2.4" fill="#8E24AA" stroke="none" stroke-width="1"/>
+<text x="530.0" y="465.0" text-anchor="middle" font-size="12" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">Linear (2048 → 2)</text>
+<rect x="410.0" y="510.0" width="240.0" height="40.0" rx="2.4" ry="2.4" fill="#1A1A2E" stroke="none" stroke-width="1"/>
+<text x="530.0" y="530.0" text-anchor="middle" font-size="12" font-weight="bold" font-style="normal" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif">Softmax → P(real) / P(fake)</text>
+<rect x="110.0" y="110.0" width="180.0" height="120.0" rx="4.8" ry="4.8" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1"/>
+<rect x="155.0" y="115.0" width="90.0" height="20.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="200.0" y="125.0" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#1A1A2E" font-family="Arial, Helvetica, sans-serif">MODEL SPECS</text>
+<rect x="125.0" y="140.0" width="150.0" height="80.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="133.0" y="141.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Parameters: 22.9M</text>
+<text x="133.0" y="154.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Input: 299 × 299 ×</text>
+<text x="133.0" y="167.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">3 Depthwise</text>
+<text x="133.0" y="180.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Separable</text>
+<text x="133.0" y="193.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Convolution</text>
+<text x="133.0" y="206.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Pretrained:</text>
+<text x="133.0" y="219.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">ImageNet</text>
+<rect x="870.0" y="110.0" width="180.0" height="100.0" rx="4.0" ry="4.0" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1"/>
+<rect x="910.0" y="115.0" width="110.0" height="20.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="965.0" y="125.0" text-anchor="middle" font-size="10" font-weight="bold" font-style="normal" fill="#1A1A2E" font-family="Arial, Helvetica, sans-serif">KEY COMPONENTS</text>
+<rect x="885.0" y="140.0" width="150.0" height="60.0" fill="none" stroke="none" stroke-width="1"/>
+<text x="893.0" y="144.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Entry → Middle →</text>
+<text x="893.0" y="157.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Exit Depthwise</text>
+<text x="893.0" y="170.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Separable Residual</text>
+<text x="893.0" y="183.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Connections Global</text>
+<text x="893.0" y="196.0" text-anchor="start" font-size="10" font-weight="normal" font-style="normal" fill="#455A64" font-family="Arial, Helvetica, sans-serif">Average Pooling</text>
+<line x1="530.0" y1="125.0" x2="530.0" y2="140.0" stroke="#455A64" stroke-width="2"/>
+<line x1="530.0" y1="190.0" x2="530.0" y2="210.0" stroke="#455A64" stroke-width="2"/>
+<line x1="530.0" y1="280.0" x2="530.0" y2="305.0" stroke="#455A64" stroke-width="2"/>
+<line x1="530.0" y1="355.0" x2="530.0" y2="380.0" stroke="#455A64" stroke-width="2"/>
+<line x1="530.0" y1="420.0" x2="530.0" y2="445.0" stroke="#455A64" stroke-width="2"/>
+<line x1="530.0" y1="485.0" x2="530.0" y2="510.0" stroke="#455A64" stroke-width="2"/>
+</svg>
