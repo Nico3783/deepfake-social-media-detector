@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     try:
         # Lazy imports to avoid slow startup when model is not needed
-        from src.models.model_factory import ModelFactory
+        from src.models.model_factory import create_model
         from src.inference.predict_image import ImagePredictor
         from src.inference.predict_video import VideoPredictor
 
@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
         if model_path.exists():
             model_type = settings.get("model_type", "xception")
-            model = ModelFactory.create_model(model_type, num_classes=2)
+            model = create_model(model_type, num_classes=2, pretrained=False)
             checkpoint = torch.load(model_path, map_location=device, weights_only=False)
             model.load_state_dict(checkpoint.get("model_state_dict", checkpoint))
             model.to(device)
@@ -112,3 +112,17 @@ def create_app() -> FastAPI:
     app.include_router(router)
 
     return app
+
+
+def main() -> None:
+    """CLI entry point for running the API server."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run Deepfake Detection API server")
+    parser.add_argument("--host", type=str, default="0.0.0.0", help="Host to bind")
+    parser.add_argument("--port", type=int, default=8000, help="Port to bind")
+    parser.add_argument("--reload", action="store_true", help="Enable auto-reload")
+    args = parser.parse_args()
+
+    import uvicorn
+    uvicorn.run("src.api.app:create_app", host=args.host, port=args.port, reload=args.reload)

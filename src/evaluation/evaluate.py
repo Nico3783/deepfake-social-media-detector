@@ -251,3 +251,33 @@ class Evaluator:
             results[name] = evaluator.evaluate(test_loader)
 
         return results
+
+
+def main() -> None:
+    """CLI entry point for model evaluation."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Evaluate deepfake detection model")
+    parser.add_argument("--checkpoint", type=str, required=True, help="Model checkpoint path")
+    parser.add_argument("--config", type=str, default="configs/training.yaml", help="Config file")
+    parser.add_argument("--output", type=str, default="outputs/eval_results.json", help="Output metrics file")
+    args = parser.parse_args()
+
+    from src.config.settings import Settings
+    from src.models.model_factory import create_model
+    from src.data.dataset import DeepfakeDataset
+    from torch.utils.data import DataLoader
+
+    settings = Settings.from_yaml(args.config)
+    device = torch.device(settings.get_device())
+    model = create_model(settings.config.model, device)
+
+    evaluator = Evaluator(model, device, settings.config.model.num_classes)
+    evaluator.load_model(Path(args.checkpoint))
+
+    metadata_dir = Path(settings.config.data.root_dir or "datasets") / "metadata"
+    test_dataset = DeepfakeDataset(metadata_path=metadata_dir / "test.csv", root_dir=Path(settings.config.data.root_dir or "datasets"), mode="test")
+    test_loader = DataLoader(test_dataset, batch_size=settings.config.training.batch_size, shuffle=False)
+
+    metrics = evaluator.evaluate(test_loader)
+    evaluator.save_metrics(metrics, Path(args.output))

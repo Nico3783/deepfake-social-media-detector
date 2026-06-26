@@ -33,7 +33,7 @@ evaluate_xceptionnet() {
     
     python3 -m src.evaluation.evaluate \
         --model outputs/models/xceptionnet_best.pth \
-        --config configs/xceptionnet.yaml \
+        --config configs/xception.yaml \
         --output-dir outputs/reports/xceptionnet \
         --visualize
     
@@ -56,7 +56,7 @@ evaluate_efficientnet() {
     
     python3 -m src.evaluation.evaluate \
         --model outputs/models/efficientnet_best.pth \
-        --config configs/efficientnet.yaml \
+        --config configs/efficientnet_b0.yaml \
         --output-dir outputs/reports/efficientnet \
         --visualize
     

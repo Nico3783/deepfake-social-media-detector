@@ -100,11 +100,11 @@ async def predict_image(
     Accepts JPEG/PNG image files and returns a binary classification
     with confidence scores.
     """
-    if _predictor is None:
-        raise HTTPException(status_code=503, detail="Model not loaded")
-
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
+
+    if _predictor is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
 
     try:
         # Save uploaded file temporarily
@@ -161,11 +161,11 @@ async def predict_video(
     Extracts frames, detects faces, runs per-frame classification,
     and aggregates predictions to produce a video-level decision.
     """
-    if _video_predictor is None:
-        raise HTTPException(status_code=503, detail="Video predictor not loaded")
-
     if not file.content_type or not file.content_type.startswith("video/"):
         raise HTTPException(status_code=400, detail="File must be a video")
+
+    if _video_predictor is None:
+        raise HTTPException(status_code=503, detail="Video predictor not loaded")
 
     try:
         suffix = Path(file.filename or "upload.mp4").suffix or ".mp4"

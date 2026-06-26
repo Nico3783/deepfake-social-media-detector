@@ -2,6 +2,6 @@
 
 from src.data.dataset import DeepfakeDataset
 from src.data.organize import DatasetOrganizer
-from src.data.split_data import DataSplitter
+from src.data.splitter import DatasetSplitter
 
-__all__ = ["DeepfakeDataset", "DatasetOrganizer", "DataSplitter"]
+__all__ = ["DeepfakeDataset", "DatasetOrganizer", "DatasetSplitter"]

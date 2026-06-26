@@ -2,12 +2,12 @@
 Training loop.
 
 Purpose: Main training loop for deepfake detection models.
-Responsibilities: Train, validate, save checkpoints, early stopping.
-Dependencies: torch, pathlib
+Responsibilities: Train, validate, save checkpoints, early stopping, resume.
+Dependencies: torch, pathlib, time
 
 Research Traceability:
-    Research Objective: Reproducible model training
-    Methodology: Standard PyTorch training loop with callbacks
+    Research Objective: Reproducible model training with resume capability
+    Methodology: Standard PyTorch training loop with callbacks and checkpointing
     Implementation: src/training/trainer.py
 """
 
@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
+from typing import Any
 
 import torch
 import torch.nn as nn
@@ -27,6 +28,28 @@ from src.utils.logger import setup_logger
 from src.utils.helpers import get_device
 
 logger = setup_logger(__name__)
+
+
+def format_time(seconds: float) -> str:
+    """Format seconds into human-readable time string.
+
+    Args:
+        seconds: Time in seconds.
+
+    Returns:
+        Formatted string like '2h 15m 30s' or '5m 12s' or '45s'.
+    """
+    if seconds < 0:
+        return "unknown"
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    if hours > 0:
+        return f"{hours}h {minutes}m {secs}s"
+    elif minutes > 0:
+        return f"{minutes}m {secs}s"
+    else:
+        return f"{secs}s"
 
 
 class Trainer:
@@ -187,20 +210,27 @@ class Trainer:
 
         return epoch_metrics
 
-    def train(self, num_epochs: int = 50) -> dict[str, list]:
+    def train(self, num_epochs: int = 50, start_epoch: int = 1) -> dict[str, list]:
         """Run the full training loop.
 
         Args:
             num_epochs: Number of epochs to train.
+            start_epoch: Epoch to start from (1-indexed). Used for resuming.
 
         Returns:
             Training history dictionary.
         """
-        logger.info(f"Starting training for {num_epochs} epochs")
+        if start_epoch > 1:
+            logger.info(
+                f"Resuming training from epoch {start_epoch} to {num_epochs}"
+            )
+        else:
+            logger.info(f"Starting training for {num_epochs} epochs")
 
-        start_time = time.time()
+        training_start_time = time.time()
+        epoch_times: list[float] = []
 
-        for epoch in range(1, num_epochs + 1):
+        for epoch in range(start_epoch, num_epochs + 1):
             epoch_start = time.time()
 
             # Training
@@ -214,14 +244,23 @@ class Trainer:
             self.history["val_acc"].append(val_metrics["accuracy"])
 
             epoch_time = time.time() - epoch_start
+            epoch_times.append(epoch_time)
 
-            # Log epoch results
+            # Calculate ETA
+            elapsed_total = time.time() - training_start_time
+            avg_epoch_time = sum(epoch_times) / len(epoch_times)
+            remaining_epochs = num_epochs - epoch
+            eta_seconds = avg_epoch_time * remaining_epochs
+
+            # Log epoch results with ETA
             logger.info(
-                f"Epoch {epoch}/{num_epochs} ({epoch_time:.1f}s) - "
+                f"Epoch {epoch}/{num_epochs} ({format_time(epoch_time)}) - "
                 f"Train Loss: {train_metrics['loss']:.4f}, "
                 f"Train Acc: {train_metrics['accuracy']:.4f}, "
                 f"Val Loss: {val_metrics['loss']:.4f}, "
-                f"Val Acc: {val_metrics['accuracy']:.4f}"
+                f"Val Acc: {val_metrics['accuracy']:.4f} | "
+                f"Elapsed: {format_time(elapsed_total)}, "
+                f"ETA: {format_time(eta_seconds)}"
             )
 
             # Combine metrics for callbacks
@@ -231,19 +270,23 @@ class Trainer:
             }
 
             # Run callbacks
-            continue_training = True
             for callback in self.callbacks:
                 if hasattr(callback, "on_epoch_end"):
-                    if not callback.on_epoch_end(epoch, all_metrics, self.model):
-                        continue_training = False
-                        break
+                    callback.on_epoch_end(epoch, all_metrics, self.model)
 
-            if not continue_training:
+            # Check early stopping
+            early_stop = False
+            for callback in self.callbacks:
+                if isinstance(callback, EarlyStopping) and callback.early_stop:
+                    early_stop = True
+                    break
+
+            if early_stop:
                 logger.info(f"Training stopped at epoch {epoch}")
                 break
 
-        total_time = time.time() - start_time
-        logger.info(f"Training completed in {total_time:.1f}s")
+        total_time = time.time() - training_start_time
+        logger.info(f"Training completed in {format_time(total_time)}")
 
         # Run end callbacks
         for callback in self.callbacks:
@@ -253,34 +296,72 @@ class Trainer:
         return self.history
 
     def save_checkpoint(self, path: Path, epoch: int, metrics: dict) -> None:
-        """Save training checkpoint.
+        """Save training checkpoint for resume.
+
+        Saves model weights, optimizer state, scheduler state, epoch number,
+        metrics, and full history so training can be resumed exactly.
 
         Args:
             path: Path to save checkpoint.
             epoch: Current epoch.
             metrics: Current metrics.
         """
+        scheduler_state = None
+        if self.scheduler is not None:
+            if hasattr(self.scheduler, "state_dict"):
+                scheduler_state = self.scheduler.state_dict()
+
         checkpoint = {
             "epoch": epoch,
             "model_state_dict": self.model.state_dict(),
             "optimizer_state_dict": self.optimizer.state_dict(),
+            "scheduler_state_dict": scheduler_state,
             "metrics": metrics,
             "history": self.history,
         }
         torch.save(checkpoint, path)
         logger.info(f"Saved checkpoint to {path}")
 
-    def load_checkpoint(self, path: Path) -> dict:
-        """Load training checkpoint.
+    def load_checkpoint(self, path: Path, load_optimizer: bool = True, load_scheduler: bool = True) -> dict:
+        """Load training checkpoint for resume.
+
+        Restores model weights, optimizer state, scheduler state, epoch number,
+        and training history.
 
         Args:
             path: Path to checkpoint.
+            load_optimizer: Whether to restore optimizer state.
+            load_scheduler: Whether to restore scheduler state.
 
         Returns:
-            Checkpoint dictionary.
+            Checkpoint dictionary with 'epoch', 'metrics', 'history' keys.
         """
         checkpoint = torch.load(path, map_location=self.device)
+
+        # Restore model weights
         self.model.load_state_dict(checkpoint["model_state_dict"])
-        self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
-        logger.info(f"Loaded checkpoint from {path}")
+
+        # Restore optimizer state
+        if load_optimizer and "optimizer_state_dict" in checkpoint:
+            self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+            logger.info("Restored optimizer state")
+
+        # Restore scheduler state
+        if (
+            load_scheduler
+            and self.scheduler is not None
+            and checkpoint.get("scheduler_state_dict") is not None
+            and hasattr(self.scheduler, "load_state_dict")
+        ):
+            self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+            logger.info("Restored scheduler state")
+
+        # Restore history
+        if "history" in checkpoint:
+            self.history = checkpoint["history"]
+            logger.info(
+                f"Restored history: {len(self.history.get('train_loss', []))} epochs"
+            )
+
+        logger.info(f"Loaded checkpoint from {path} (epoch {checkpoint['epoch']})")
         return checkpoint

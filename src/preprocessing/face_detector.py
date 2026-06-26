@@ -144,3 +144,14 @@ class FaceDetector:
         """
         image = Image.open(image_path).convert("RGB")
         return self.detect_faces(image)
+
+    def detect(self, image: Image.Image | np.ndarray) -> list[dict]:
+        """Alias for detect_faces().
+
+        Args:
+            image: Input image.
+
+        Returns:
+            List of detected faces.
+        """
+        return self.detect_faces(image)

@@ -20,6 +20,8 @@ from typing import Any
 import numpy as np
 import torch
 import torch.nn as nn
+from PIL import Image
+from torchvision import transforms
 
 from src.utils.logger import setup_logger
 from src.utils.helpers import get_device
@@ -55,7 +57,7 @@ class VideoClassifier:
     def __init__(
         self,
         model: nn.Module,
-        device: torch.device | None = None,
+        device: torch.device | str | None = None,
         threshold: float = 0.5,
         aggregation_method: str = "mean",
     ) -> None:
@@ -67,6 +69,8 @@ class VideoClassifier:
             threshold: Classification threshold.
             aggregation_method: Method for frame aggregation ('mean', 'majority', 'confidence_weighted').
         """
+        if isinstance(device, str):
+            device = torch.device(device)
         self.model = model
         self.device = device or get_device()
         self.threshold = threshold
@@ -76,77 +80,98 @@ class VideoClassifier:
         self.model = self.model.to(self.device)
         self.model.eval()
 
+        self._preprocess = transforms.Compose([
+            transforms.Resize((299, 299)),
+            transforms.ToTensor(),
+        ])
+
         logger.info(
             f"VideoClassifier initialized: "
             f"method={aggregation_method}, threshold={threshold}"
         )
 
+    def _load_and_preprocess(self, paths: list[Path]) -> torch.Tensor:
+        """Load images from paths and convert to a batch tensor.
+
+        Args:
+            paths: List of image file paths.
+
+        Returns:
+            Tensor of shape (N, C, H, W).
+        """
+        images = []
+        for p in paths:
+            img = Image.open(p).convert("RGB")
+            images.append(self._preprocess(img))
+        return torch.stack(images, dim=0)
+
     @torch.no_grad()
     def classify_frames(
         self,
-        frames: torch.Tensor,
-    ) -> dict[str, Any]:
+        frames: list[Path] | torch.Tensor,
+    ) -> list[dict[str, Any]]:
         """Classify a batch of frames.
 
         Args:
-            frames: Tensor of shape (N, C, H, W) where N is number of frames.
+            frames: List of image file paths, or a preprocessed tensor of shape (N, C, H, W).
 
         Returns:
-            Dictionary with frame-level predictions and probabilities.
+            List of dictionaries, one per frame, each with 'fake_prob', 'real_prob', 'label'.
         """
-        frames = frames.to(self.device)
+        if isinstance(frames, list):
+            tensor = self._load_and_preprocess(frames).to(self.device)
+        else:
+            tensor = frames.to(self.device)
 
         # Forward pass
-        outputs = self.model(frames)
+        outputs = self.model(tensor)
         probs = torch.softmax(outputs, dim=1)
 
-        # Extract fake class probabilities
         fake_probs = probs[:, 1].cpu().numpy()
         real_probs = probs[:, 0].cpu().numpy()
-        preds = torch.argmax(outputs, dim=1).cpu().numpy()
 
-        return {
-            "predictions": preds.tolist(),
-            "fake_probabilities": fake_probs.tolist(),
-            "real_probabilities": real_probs.tolist(),
-            "mean_fake_probability": float(np.mean(fake_probs)),
-            "mean_real_probability": float(np.mean(real_probs)),
-            "num_frames": len(frames),
-        }
+        results = []
+        for i in range(len(fake_probs)):
+            fake_p = float(fake_probs[i])
+            real_p = float(real_probs[i])
+            label = "fake" if fake_p >= self.threshold else "real"
+            results.append({
+                "fake_prob": fake_p,
+                "real_prob": real_p,
+                "label": label,
+            })
+
+        return results
 
     def aggregate_predictions(
         self,
-        frame_results: dict[str, Any],
+        frame_results: list[dict[str, Any]],
     ) -> tuple[bool, float]:
         """Aggregate frame predictions into video-level prediction.
 
         Args:
-            frame_results: Results from classify_frames().
+            frame_results: List of per-frame result dicts with 'fake_prob' keys.
 
         Returns:
             Tuple of (is_fake, confidence).
         """
-        fake_probs = np.array(frame_results["fake_probabilities"])
+        fake_probs = np.array([r["fake_prob"] for r in frame_results])
 
         if self.aggregation_method == "mean":
-            # Simple mean of frame probabilities
             video_prob = float(np.mean(fake_probs))
 
         elif self.aggregation_method == "majority":
-            # Majority voting
-            preds = np.array(frame_results["predictions"])
-            video_prob = float(np.mean(preds == 1))
+            preds = np.array([1 if r["label"] == "fake" else 0 for r in frame_results])
+            video_prob = float(np.mean(preds))
 
         elif self.aggregation_method == "confidence_weighted":
-            # Weight by confidence (distance from 0.5)
-            confidences = np.abs(fake_probs - 0.5) * 2  # Scale to [0, 1]
+            confidences = np.abs(fake_probs - 0.5) * 2
             weights = confidences / confidences.sum() if confidences.sum() > 0 else np.ones_like(fake_probs) / len(fake_probs)
             video_prob = float(np.sum(fake_probs * weights))
 
         else:
             raise ValueError(f"Unknown aggregation method: {self.aggregation_method}")
 
-        # Classify
         is_fake = video_prob >= self.threshold
         confidence = video_prob if is_fake else 1 - video_prob
 
@@ -154,13 +179,13 @@ class VideoClassifier:
 
     def classify_video(
         self,
-        frames: torch.Tensor,
+        frames: list[Path] | torch.Tensor,
         video_path: str = "unknown",
     ) -> VideoPrediction:
         """Classify a complete video from its frames.
 
         Args:
-            frames: Tensor of extracted frames (N, C, H, W).
+            frames: List of frame image paths or preprocessed tensor (N, C, H, W).
             video_path: Path to the source video.
 
         Returns:
@@ -174,24 +199,28 @@ class VideoClassifier:
 
         # Build per-frame predictions
         frame_predictions = []
-        for i in range(frame_results["num_frames"]):
+        for i, r in enumerate(frame_results):
             frame_predictions.append({
                 "frame_index": i,
-                "prediction": "fake" if frame_results["predictions"][i] == 1 else "real",
-                "fake_probability": frame_results["fake_probabilities"][i],
-                "real_probability": frame_results["real_probabilities"][i],
+                "prediction": r["label"],
+                "fake_probability": r["fake_prob"],
+                "real_probability": r["real_prob"],
             })
 
         # Temporal analysis
         temporal_analysis = self._temporal_analysis(frame_results)
 
+        num_frames = len(frame_results)
+        mean_fake = float(np.mean([r["fake_prob"] for r in frame_results]))
+        mean_real = float(np.mean([r["real_prob"] for r in frame_results]))
+
         prediction = VideoPrediction(
             video_path=video_path,
             is_fake=is_fake,
             confidence=confidence,
-            fake_probability=frame_results["mean_fake_probability"],
-            real_probability=frame_results["mean_real_probability"],
-            num_frames=frame_results["num_frames"],
+            fake_probability=mean_fake,
+            real_probability=mean_real,
+            num_frames=num_frames,
             aggregation_method=self.aggregation_method,
             frame_predictions=frame_predictions,
             temporal_analysis=temporal_analysis,
@@ -199,29 +228,27 @@ class VideoClassifier:
 
         logger.info(
             f"Video {video_path}: {'FAKE' if is_fake else 'REAL'} "
-            f"(confidence={confidence:.4f}, frames={frame_results['num_frames']})"
+            f"(confidence={confidence:.4f}, frames={num_frames})"
         )
 
         return prediction
 
-    def _temporal_analysis(self, frame_results: dict[str, Any]) -> dict[str, Any]:
+    def _temporal_analysis(self, frame_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze temporal patterns in frame predictions.
 
         Args:
-            frame_results: Frame-level classification results.
+            frame_results: List of per-frame result dicts.
 
         Returns:
             Dictionary with temporal analysis metrics.
         """
-        fake_probs = np.array(frame_results["fake_probabilities"])
+        fake_probs = np.array([r["fake_prob"] for r in frame_results])
 
-        # Compute temporal statistics
         mean_prob = float(np.mean(fake_probs))
         std_prob = float(np.std(fake_probs))
         max_prob = float(np.max(fake_probs))
         min_prob = float(np.min(fake_probs))
 
-        # Detect manipulation segments (consecutive frames with high fake probability)
         manipulation_segments = []
         in_segment = False
         segment_start = 0
@@ -239,7 +266,6 @@ class VideoClassifier:
                     "mean_probability": float(np.mean(fake_probs[segment_start:i])),
                 })
 
-        # Close last segment if still open
         if in_segment:
             manipulation_segments.append({
                 "start_frame": segment_start,
@@ -248,8 +274,7 @@ class VideoClassifier:
                 "mean_probability": float(np.mean(fake_probs[segment_start:])),
             })
 
-        # Compute consistency score (how consistent are the predictions)
-        consistency = 1.0 - std_prob  # Higher consistency = lower std
+        consistency = 1.0 - std_prob
 
         return {
             "mean_probability": mean_prob,

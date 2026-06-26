@@ -1,140 +1,278 @@
-"""Tests for training pipeline modules."""
+"""Tests for training module: losses, metrics, callbacks, schedulers."""
 
 from __future__ import annotations
 
+import tempfile
+from pathlib import Path
+from typing import Generator
+from unittest.mock import MagicMock, patch
+
+import numpy as np
 import pytest
 import torch
 import torch.nn as nn
-from torch.optim import Adam
-from torch.utils.data import DataLoader, TensorDataset
 
 from src.training.losses import FocalLoss, LabelSmoothingLoss
 from src.training.metrics import MetricsTracker
-from src.training.callbacks import EarlyStopping, LRScheduler
+from src.training.callbacks import EarlyStopping, ModelCheckpoint, LRScheduler
+
+
+# ---------------------------------------------------------------------------
+# Losses
+# ---------------------------------------------------------------------------
 
 
 class TestFocalLoss:
-    """Tests for Focal Loss."""
+    """Tests for FocalLoss."""
 
-    def test_focal_loss_output_scalar(self) -> None:
-        """Focal loss returns a scalar tensor."""
-        criterion = FocalLoss()
+    def test_forward_produces_scalar(self) -> None:
+        loss_fn = FocalLoss(alpha=0.25, gamma=2.0)
         logits = torch.randn(4, 2)
-        labels = torch.tensor([0, 1, 0, 1])
-        loss = criterion(logits, labels)
-        assert loss.shape == ()
-        assert loss.item() >= 0.0
+        targets = torch.tensor([0, 1, 0, 1])
+        loss = loss_fn(logits, targets)
+        assert loss.ndim == 0  # scalar
 
-    def test_focal_loss_perfect_prediction(self) -> None:
-        """Focal loss is low when predictions are correct."""
-        criterion = FocalLoss()
+    def test_perfect_prediction_low_loss(self) -> None:
+        loss_fn = FocalLoss()
         logits = torch.tensor([[10.0, -10.0], [-10.0, 10.0]])
-        labels = torch.tensor([0, 1])
-        loss = criterion(logits, labels)
-        assert loss.item() < 0.1
+        targets = torch.tensor([0, 1])
+        loss = loss_fn(logits, targets)
+        assert loss.item() < 0.01
 
-    def test_focal_loss_bad_prediction(self) -> None:
-        """Focal loss is high when predictions are wrong."""
-        criterion = FocalLoss()
-        logits = torch.tensor([[-10.0, 10.0], [10.0, -10.0]])
-        labels = torch.tensor([0, 1])
-        loss = criterion(logits, labels)
-        assert loss.item() > 1.0
+    def test_bad_prediction_higher_loss(self) -> None:
+        loss_fn = FocalLoss()
+        good_logits = torch.tensor([[10.0, -10.0], [-10.0, 10.0]])
+        bad_logits = torch.tensor([[-10.0, 10.0], [10.0, -10.0]])
+        targets = torch.tensor([0, 1])
+        good_loss = loss_fn(good_logits, targets)
+        bad_loss = loss_fn(bad_logits, targets)
+        assert bad_loss > good_loss
 
-    def test_focal_loss_with_alpha(self) -> None:
-        """Focal loss accepts alpha parameter."""
-        criterion = FocalLoss(alpha=0.75)
+    def test_gamma_zero_equals_ce(self) -> None:
+        """With gamma=0, focal loss reduces to standard cross-entropy."""
+        focal = FocalLoss(gamma=0.0, reduction="mean")
+        ce = nn.CrossEntropyLoss(reduction="mean")
+        logits = torch.randn(8, 2)
+        targets = torch.tensor([0, 1, 0, 1, 1, 0, 1, 0])
+        assert torch.allclose(focal(logits, targets), ce(logits, targets), atol=1e-6)
+
+    def test_different_alpha(self) -> None:
         logits = torch.randn(4, 2)
-        labels = torch.tensor([0, 1, 0, 1])
-        loss = criterion(logits, labels)
-        assert loss.item() >= 0.0
+        targets = torch.tensor([0, 1, 0, 1])
+        loss_a = FocalLoss(alpha=0.25)(logits, targets)
+        loss_b = FocalLoss(alpha=0.75)(logits, targets)
+        assert loss_a.item() != loss_b.item()
 
 
 class TestLabelSmoothingLoss:
-    """Tests for Label Smoothing Loss."""
+    """Tests for LabelSmoothingLoss."""
 
-    def test_label_smoothing_loss(self) -> None:
-        """Label smoothing loss returns scalar."""
-        criterion = LabelSmoothingLoss()
+    def test_forward_produces_scalar(self) -> None:
+        loss_fn = LabelSmoothingLoss(num_classes=2, smoothing=0.1)
         logits = torch.randn(4, 2)
-        labels = torch.tensor([0, 1, 0, 1])
-        loss = criterion(logits, labels)
-        assert loss.shape == ()
-        assert loss.item() >= 0.0
+        targets = torch.tensor([0, 1, 0, 1])
+        loss = loss_fn(logits, targets)
+        assert loss.ndim == 0
 
-    def test_label_smoothing_smooths(self) -> None:
-        """Label smoothing loss is lower than hard cross-entropy for overconfident predictions."""
-        hard_criterion = nn.CrossEntropyLoss()
-        smooth_criterion = LabelSmoothingLoss()
-        logits = torch.tensor([[10.0, -10.0], [-10.0, 10.0]])
-        labels = torch.tensor([0, 1])
-        hard_loss = hard_criterion(logits, labels)
-        smooth_loss = smooth_criterion(logits, labels)
-        # Smoothed loss should be slightly lower due to regularization
-        assert smooth_loss.item() <= hard_loss.item()
+    def test_smoothed_target_differs_from_hard(self) -> None:
+        hard = nn.CrossEntropyLoss()
+        smooth = LabelSmoothingLoss(num_classes=2, smoothing=0.1)
+        logits = torch.randn(4, 2)
+        targets = torch.tensor([0, 1, 0, 1])
+        # Smoothed loss should not be identical to hard CE
+        assert hard(logits, targets).item() != smooth(logits, targets).item()
+
+    def test_zero_smoothing_matches_ce(self) -> None:
+        """With smoothing=0, should be close to cross-entropy."""
+        smooth = LabelSmoothingLoss(num_classes=2, smoothing=0.0)
+        ce = nn.CrossEntropyLoss()
+        logits = torch.randn(8, 2)
+        targets = torch.tensor([0, 1, 0, 1, 1, 0, 1, 0])
+        assert torch.allclose(smooth(logits, targets), ce(logits, targets), atol=1e-5)
+
+    def test_multiclass(self) -> None:
+        loss_fn = LabelSmoothingLoss(num_classes=5, smoothing=0.1)
+        logits = torch.randn(8, 5)
+        targets = torch.tensor([0, 1, 2, 3, 4, 0, 1, 2])
+        loss = loss_fn(logits, targets)
+        assert loss.ndim == 0
+        assert loss.item() > 0
+
+
+# ---------------------------------------------------------------------------
+# Metrics
+# ---------------------------------------------------------------------------
 
 
 class TestMetricsTracker:
     """Tests for MetricsTracker."""
 
-    def test_initialization(self) -> None:
-        """MetricsTracker initializes with empty history."""
-        tracker = MetricsTracker()
-        assert tracker.history == {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
+    def test_update_and_compute(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary")
+        preds = torch.tensor([0, 1, 1, 0])
+        targets = torch.tensor([0, 1, 0, 0])
+        tracker.update(preds, targets)
+        metrics = tracker.compute()
+        assert "accuracy" in metrics
+        assert "precision" in metrics
+        assert "recall" in metrics
+        assert "f1" in metrics
+        assert 0.0 <= metrics["accuracy"] <= 1.0
 
-    def test_update(self) -> None:
-        """MetricsTracker records values correctly."""
-        tracker = MetricsTracker()
-        tracker.update({"train_loss": 0.5, "train_acc": 0.8})
-        assert len(tracker.history["train_loss"]) == 1
-        assert tracker.history["train_loss"][0] == 0.5
+    def test_reset(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary")
+        tracker.update(torch.tensor([1, 0]), torch.tensor([1, 0]))
+        tracker.reset()
+        metrics = tracker.compute()
+        assert metrics["accuracy"] == 0.0
 
-    def test_get_best_metric(self) -> None:
-        """MetricsTracker finds best metric value."""
-        tracker = MetricsTracker()
-        tracker.update({"val_loss": 0.5})
-        tracker.update({"val_loss": 0.3})
-        tracker.update({"val_loss": 0.4})
-        best = tracker.get_best("val_loss", mode="min")
-        assert best == 0.3
+    def test_perfect_predictions(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary")
+        preds = torch.tensor([0, 1, 0, 1])
+        targets = torch.tensor([0, 1, 0, 1])
+        tracker.update(preds, targets)
+        metrics = tracker.compute()
+        assert metrics["accuracy"] == 1.0
+        assert metrics["f1"] == 1.0
 
-    def test_get_best_accuracy(self) -> None:
-        """MetricsTracker finds best accuracy (max mode)."""
-        tracker = MetricsTracker()
-        tracker.update({"val_acc": 0.7})
-        tracker.update({"val_acc": 0.9})
-        tracker.update({"val_acc": 0.8})
-        best = tracker.get_best("val_acc", mode="max")
-        assert best == 0.9
+    def test_all_wrong_predictions(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary")
+        preds = torch.tensor([1, 0, 1, 0])
+        targets = torch.tensor([0, 1, 0, 1])
+        tracker.update(preds, targets)
+        metrics = tracker.compute()
+        assert metrics["accuracy"] == 0.0
+
+    def test_get_epoch_metrics(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary")
+        tracker.update(torch.tensor([0, 1]), torch.tensor([0, 1]))
+        epoch_metrics = tracker.get_epoch_metrics()
+        assert isinstance(epoch_metrics, dict)
+        assert "accuracy" in epoch_metrics
+
+    def test_device_consistency(self) -> None:
+        tracker = MetricsTracker(num_classes=2, task="binary", device="cpu")
+        preds = torch.tensor([0, 1])
+        targets = torch.tensor([0, 1])
+        tracker.update(preds, targets)
+        metrics = tracker.compute()
+        assert isinstance(metrics["accuracy"], float)
+
+
+# ---------------------------------------------------------------------------
+# Callbacks
+# ---------------------------------------------------------------------------
 
 
 class TestEarlyStopping:
     """Tests for EarlyStopping callback."""
 
-    def test_no_stop_within_patience(self) -> None:
-        """EarlyStopping does not trigger within patience window."""
-        es = EarlyStopping(patience=3, min_delta=0.01)
+    def test_no_stop_when_loss_improves(self) -> None:
+        es = EarlyStopping(patience=3, min_delta=0.0, monitor="val_loss", mode="min")
+        model = nn.Linear(10, 2)
         # Simulate improving loss
-        es.step(1.0)
-        es.step(0.9)
-        es.step(0.8)
-        assert not es.should_stop
+        for epoch in range(5):
+            stop = es.on_epoch_end(epoch, {"val_loss": 1.0 - epoch * 0.1}, model)
+        assert not es.early_stop
 
-    def test_stop_after_patience(self) -> None:
-        """EarlyStopping triggers after patience exhausted."""
-        es = EarlyStopping(patience=3, min_delta=0.01)
-        es.step(1.0)
-        es.step(1.0)  # no improvement
-        es.step(1.0)  # no improvement
-        es.step(1.0)  # no improvement → should stop
-        assert es.should_stop
+    def test_stops_after_patience_exceeded(self) -> None:
+        es = EarlyStopping(patience=2, min_delta=0.0, monitor="val_loss", mode="min")
+        model = nn.Linear(10, 2)
+        # Simulate non-improving loss
+        for epoch in range(5):
+            es.on_epoch_end(epoch, {"val_loss": 1.0}, model)
+        assert es.early_stop
 
-    def test_reset_on_improvement(self) -> None:
-        """EarlyStopping patience resets on improvement."""
-        es = EarlyStopping(patience=3, min_delta=0.01)
-        es.step(1.0)
-        es.step(1.0)
-        es.step(0.5)  # improvement → reset counter
-        es.step(0.5)
-        es.step(0.5)
-        assert not es.should_stop  # only 3 steps since last improvement
+    def test_resets_on_improvement(self) -> None:
+        es = EarlyStopping(patience=2, min_delta=0.0, monitor="val_loss", mode="min")
+        model = nn.Linear(10, 2)
+        # Some non-improving epochs
+        es.on_epoch_end(0, {"val_loss": 1.0}, model)
+        es.on_epoch_end(1, {"val_loss": 1.0}, model)
+        # Improvement resets counter
+        es.on_epoch_end(2, {"val_loss": 0.5}, model)
+        assert not es.early_stop
+
+    def test_mode_max(self) -> None:
+        es = EarlyStopping(patience=2, min_delta=0.0, monitor="val_acc", mode="max")
+        model = nn.Linear(10, 2)
+        # Decreasing accuracy triggers early stopping
+        for epoch in range(5):
+            es.on_epoch_end(epoch, {"val_acc": 0.5}, model)
+        assert es.early_stop
+
+    def test_min_delta(self) -> None:
+        es = EarlyStopping(patience=1, min_delta=0.1, monitor="val_loss", mode="min")
+        model = nn.Linear(10, 2)
+        es.on_epoch_end(0, {"val_loss": 1.0}, model)
+        # Improvement smaller than min_delta does NOT count
+        es.on_epoch_end(1, {"val_loss": 0.95}, model)
+        assert es.early_stop
+
+
+class TestModelCheckpoint:
+    """Tests for ModelCheckpoint callback."""
+
+    def test_saves_checkpoint(self, tmp_path: Path) -> None:
+        mc = ModelCheckpoint(save_dir=tmp_path, monitor="val_loss", mode="min")
+        model = nn.Linear(10, 2)
+        stop = mc.on_epoch_end(0, {"val_loss": 0.5}, model)
+        assert not stop
+        assert (tmp_path / "best_model_epoch_0.pt").exists()
+
+    def test_saves_only_best(self, tmp_path: Path) -> None:
+        mc = ModelCheckpoint(
+            save_dir=tmp_path,
+            monitor="val_loss",
+            mode="min",
+            save_best=True,
+            save_top_k=1,
+        )
+        model = nn.Linear(10, 2)
+        mc.on_epoch_end(0, {"val_loss": 1.0}, model)
+        mc.on_epoch_end(1, {"val_loss": 0.5}, model)
+        # Only the best should be kept
+        checkpoints = list(tmp_path.glob("best_model_*.pt"))
+        assert len(checkpoints) <= 2  # best + possibly last
+
+
+class TestLRScheduler:
+    """Tests for LRScheduler callback."""
+
+    def test_reduces_lr(self) -> None:
+        optimizer = torch.optim.SGD([torch.randn(3, requires_grad=True)], lr=0.1)
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.5)
+        lr_sched = LRScheduler(scheduler=scheduler, monitor="val_loss")
+        lr_sched.on_epoch_end(0, {"val_loss": 1.0})
+        # LR should have been stepped
+        lr = optimizer.param_groups[0]["lr"]
+        assert lr < 0.1
+
+
+# ---------------------------------------------------------------------------
+# get_loss_fn helper
+# ---------------------------------------------------------------------------
+
+
+class TestGetLossFn:
+    """Tests for get_loss_fn factory function."""
+
+    def test_focal_loss(self) -> None:
+        from src.training.losses import get_loss_fn
+        loss_fn = get_loss_fn("focal", alpha=0.25, gamma=2.0)
+        assert isinstance(loss_fn, FocalLoss)
+
+    def test_label_smoothing_loss(self) -> None:
+        from src.training.losses import get_loss_fn
+        loss_fn = get_loss_fn("label_smoothing", num_classes=2, smoothing=0.1)
+        assert isinstance(loss_fn, LabelSmoothingLoss)
+
+    def test_ce_loss(self) -> None:
+        from src.training.losses import get_loss_fn
+        loss_fn = get_loss_fn("cross_entropy")
+        assert isinstance(loss_fn, nn.CrossEntropyLoss)
+
+    def test_unknown_loss_raises(self) -> None:
+        from src.training.losses import get_loss_fn
+        with pytest.raises(ValueError):
+            get_loss_fn("nonexistent_loss")

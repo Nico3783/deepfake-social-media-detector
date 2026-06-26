@@ -39,14 +39,14 @@ class ImageNormalizer:
         self,
         mean: list[float] | None = None,
         std: list[float] | None = None,
-        scale_mode: str = "imagenet",
+        scale_mode: str = "minmax",
     ) -> None:
         """Initialize image normalizer.
 
         Args:
             mean: Mean values for normalization (default: ImageNet).
             std: Standard deviation values for normalization (default: ImageNet).
-            scale_mode: Scaling mode ('imagenet', 'minmax', 'tanh').
+            scale_mode: Scaling mode ('minmax', 'imagenet', 'tanh').
         """
         self.mean = np.array(mean or IMAGENET_MEAN, dtype=np.float32)
         self.std = np.array(std or IMAGENET_STD, dtype=np.float32)
@@ -67,15 +67,12 @@ class ImageNormalizer:
         # Convert to float and scale to [0, 1]
         image = image.astype(np.float32) / 255.0
 
-        # Apply scaling
-        if self.scale_mode == "tanh":
+        # Apply scaling mode
+        if self.scale_mode == "imagenet":
+            image = (image - self.mean) / self.std
+        elif self.scale_mode == "tanh":
             image = image * 2.0 - 1.0
-
-        # Apply mean/std normalization
-        image = (image - self.mean) / self.std
-
-        # Transpose to (C, H, W)
-        image = np.transpose(image, (2, 0, 1))
+        # "minmax" keeps values in [0, 1]
 
         return image
 

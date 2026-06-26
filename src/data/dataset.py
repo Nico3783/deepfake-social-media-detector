@@ -85,6 +85,8 @@ class DeepfakeDataset(Dataset):
 
         if self.transform:
             image = self.transform(image)
+        else:
+            image = torch.tensor(np.array(image), dtype=torch.float32).permute(2, 0, 1)
 
         return image, label
 

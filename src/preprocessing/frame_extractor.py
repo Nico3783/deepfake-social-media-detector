@@ -114,6 +114,53 @@ class FrameExtractor:
         logger.info(f"Extracted {extracted} frames to {output_dir}")
         return frame_paths
 
+    def extract(
+        self,
+        video_path: Path,
+        sampling_rate: int | None = None,
+        sample_rate: int | None = None,
+    ) -> list[np.ndarray]:
+        """Extract frames as numpy arrays (in-memory, no disk I/O).
+
+        Args:
+            video_path: Path to the video file.
+            sampling_rate: Override instance sampling_rate for this extraction.
+            sample_rate: Alias for sampling_rate.
+
+        Returns:
+            List of frames as numpy arrays (RGB, HWC, uint8).
+        """
+        video_path = Path(video_path)
+        if not video_path.exists():
+            raise FileNotFoundError(f"Video not found: {video_path}")
+
+        effective_rate = sample_rate if sample_rate is not None else sampling_rate
+        rate = effective_rate if effective_rate is not None else self.sampling_rate
+
+        cap = cv2.VideoCapture(str(video_path))
+        if not cap.isOpened():
+            raise RuntimeError(f"Cannot open video: {video_path}")
+
+        frames = []
+        frame_idx = 0
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            if frame_idx % rate == 0:
+                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frames.append(frame_rgb)
+
+                if self.max_frames and len(frames) >= self.max_frames:
+                    break
+
+            frame_idx += 1
+
+        cap.release()
+        return frames
+
     def extract_frames_at_timestamps(
         self,
         video_path: Path,

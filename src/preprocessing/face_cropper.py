@@ -152,6 +152,29 @@ class FaceCropper:
             results.append(faces)
         return results
 
+    def crop(
+        self,
+        image: Image.Image | np.ndarray,
+        detection: dict | list | tuple,
+    ) -> Image.Image:
+        """Crop face from an image.
+
+        Accepts either a detection dictionary with 'bbox' key or a
+        bounding box tuple/list (x1, y1, x2, y2).
+
+        Args:
+            image: Input image.
+            detection: Face detection dict with 'bbox' key, or bbox tuple/list.
+
+        Returns:
+            Cropped face as numpy array (uint8).
+        """
+        if isinstance(detection, dict):
+            face = self.crop_face_from_detection(image, detection)
+        else:
+            face = self.crop_face(image, bbox=list(detection))
+        return np.array(face)
+
     def align_face(
         self,
         image: Image.Image | np.ndarray,

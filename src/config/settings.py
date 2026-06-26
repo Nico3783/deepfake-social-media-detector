@@ -198,9 +198,34 @@ class Settings:
             return "cpu"
         return self.config.inference.device
 
-    def resolve_paths(self) -> None:
-        """Resolve all paths relative to the project root."""
-        root = self.paths.project_root
-        self.config.log_dir = str(root / self.config.log_dir)
-        self.config.checkpoint_dir = str(root / self.config.checkpoint_dir)
-        self.config.data.root_dir = str(root / self.config.data.root_dir) if self.config.data.root_dir else str(root / "datasets")
+    @classmethod
+    def from_yaml(cls, config_path: str | Path) -> "Settings":
+        """Create Settings from a YAML file.
+
+        Args:
+            config_path: Path to the YAML configuration file.
+
+        Returns:
+            Configured Settings instance.
+        """
+        settings = cls()
+        settings.load_from_yaml(config_path)
+        return settings
+
+def load_settings() -> dict[str, Any]:
+    """Load settings and return a flat dict for API convenience.
+
+    Returns:
+        Dictionary with merged config values and sensible defaults.
+    """
+    s = Settings()
+    cfg = s.config
+    return {
+        "model_path": str(Path(cfg.checkpoint_dir) / "best_model.pth"),
+        "model_type": cfg.model.name if hasattr(cfg.model, "name") else "xception",
+        "frame_sample_rate": 5,
+        "batch_size": cfg.training.batch_size,
+        "learning_rate": cfg.training.learning_rate,
+        "num_classes": cfg.model.num_classes,
+        "experiment_name": cfg.experiment_name,
+    }

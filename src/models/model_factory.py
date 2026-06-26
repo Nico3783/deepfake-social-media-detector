@@ -50,10 +50,10 @@ def create_model(
             num_classes=config.num_classes,
             pretrained=config.pretrained,
             dropout_rate=config.dropout_rate,
-            freeze_base=config.freeze_base,
+            freeze_base=config.freeze_backbone,
         )
     elif model_name.startswith("efficientnet"):
-        variant = config.name.replace("efficientnet", "").replace("-", "")
+        variant = config.name.replace("efficientnet", "").replace("-", "").replace("_", "").upper()
         if not variant:
             variant = "B0"
         model = EfficientNetModel(
@@ -61,7 +61,7 @@ def create_model(
             num_classes=config.num_classes,
             pretrained=config.pretrained,
             dropout_rate=config.dropout_rate,
-            freeze_base=config.freeze_base,
+            freeze_base=config.freeze_backbone,
         )
     else:
         raise ValueError(f"Unsupported model: {config.name}")

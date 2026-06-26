@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from src.utils.logger import setup_logger
-from src.utils.paths import PathConfig
+from src.config.paths import PathConfig
 
 logger = setup_logger(__name__)
 

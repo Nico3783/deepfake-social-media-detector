@@ -93,23 +93,50 @@ class DatasetSplitter:
         if abs(train_ratio + val_ratio + test_ratio - 1.0) > 1e-6:
             raise ValueError("Split ratios must sum to 1.0")
 
-        random.seed(seed)
-        np.random.seed(seed)
+        rng = random.Random(seed)
+        n = len(metadata)
+        n_test = round(n * test_ratio)
+        n_val = round(n * val_ratio)
+        n_train = n - n_test - n_val
 
-        # Extract labels for stratified splitting
-        labels = [row["label"] for row in metadata]
+        # Group by label for stratified splitting
+        labels = sorted(set(row["label"] for row in metadata))
+        label_groups: dict[str, list[dict]] = {label: [] for label in labels}
+        for row in metadata:
+            label_groups[row["label"]].append(row)
 
-        # First split: train+val vs test
-        train_val, test, train_val_labels, test_labels = train_test_split(
-            metadata, labels, test_size=test_ratio, stratify=labels, random_state=seed
-        )
+        # Per-label split sizes proportionally, then enforce global sizes
+        train, val, test = [], [], []
+        for label in labels:
+            group = label_groups[label]
+            rng.shuffle(group)
+            lg = len(group)
+            lt = round(lg * test_ratio)
+            lv = round(lg * val_ratio)
+            ltrain = lg - lt - lv
+            train.extend(group[:ltrain])
+            val.extend(group[ltrain:ltrain + lv])
+            test.extend(group[ltrain + lv:])
 
-        # Second split: train vs val
-        relative_val_ratio = val_ratio / (train_ratio + val_ratio)
-        train, val, train_labels, val_labels = train_test_split(
-            train_val, train_val_labels, test_size=relative_val_ratio,
-            stratify=train_val_labels, random_state=seed
-        )
+        # Enforce exact global sizes by rebalancing train↔val and train↔test
+        target_val = n_val
+        target_test = n_test
+
+        # First fix test size: move items between train and test
+        while len(test) < target_test and len(train) > n_train:
+            test.append(train.pop())
+        while len(test) > target_test and train is not None:
+            train.append(test.pop())
+
+        # Then fix val size: move items between train and val
+        while len(val) < target_val and len(train) > n_train:
+            val.append(train.pop())
+        while len(val) > target_val and train is not None:
+            train.append(val.pop())
+
+        rng.shuffle(train)
+        rng.shuffle(val)
+        rng.shuffle(test)
 
         splits = {"train": train, "val": val, "test": test}
 

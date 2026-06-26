@@ -61,22 +61,23 @@ class ImageResizer:
         }
         return methods.get(method, Image.Resampling.LANCZOS)
 
-    def resize(self, image: Image.Image | np.ndarray) -> Image.Image:
+    def resize(self, image: Image.Image | np.ndarray) -> np.ndarray:
         """Resize image to target size.
 
         Args:
             image: Input image (PIL Image or numpy array).
 
         Returns:
-            Resized image as PIL Image.
+            Resized image as numpy array (H, W, C) with uint8 dtype.
         """
         if isinstance(image, np.ndarray):
             image = Image.fromarray(image)
 
-        return image.resize(
+        resized = image.resize(
             (self.target_size, self.target_size),
             self.interpolation,
         )
+        return np.array(resized)
 
     def resize_with_padding(
         self,

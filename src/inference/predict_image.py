@@ -129,8 +129,13 @@ class ImagePredictor:
         resized = self.image_resizer.resize(face)
         normalized = self.normalizer.normalize(resized)
 
-        # Add batch dimension
-        input_tensor = normalized.unsqueeze(0).to(self.device)
+        # Add batch dimension and convert to tensor (HWC -> CHW)
+        if isinstance(normalized, np.ndarray):
+            # Transpose from HWC to CHW, then add batch dim
+            tensor = torch.from_numpy(normalized).permute(2, 0, 1)
+            input_tensor = tensor.unsqueeze(0).to(self.device)
+        else:
+            input_tensor = normalized.unsqueeze(0).to(self.device)
 
         # Classify
         output = self.model(input_tensor)
@@ -177,3 +182,29 @@ class ImagePredictor:
             "face_detected": prediction.face_detected,
             "bounding_box": list(prediction.bounding_box) if prediction.bounding_box else None,
         }
+
+
+def main() -> None:
+    """CLI entry point for single image prediction."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Predict if an image is real or fake")
+    parser.add_argument("--image", type=str, required=True, help="Path to image file")
+    parser.add_argument("--checkpoint", type=str, required=True, help="Model checkpoint path")
+    parser.add_argument("--config", type=str, default="configs/training.yaml", help="Config file")
+    parser.add_argument("--threshold", type=float, default=0.5, help="Classification threshold")
+    args = parser.parse_args()
+
+    from src.config.settings import Settings
+    from src.models.model_factory import create_model
+
+    settings = Settings.from_yaml(args.config)
+    device = torch.device(settings.get_device())
+    model = create_model(settings.config.model, device)
+
+    predictor = ImagePredictor(model, device, threshold=args.threshold)
+    predictor.model.load_state_dict(torch.load(args.checkpoint, map_location=device, weights_only=False).get("model_state_dict", torch.load(args.checkpoint, map_location=device, weights_only=False)))
+
+    prediction = predictor.predict(args.image)
+    result = predictor.to_dict(prediction)
+    print(json.dumps(result, indent=2))

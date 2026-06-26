@@ -32,12 +32,12 @@ fi
 train_xceptionnet() {
     echo ""
     echo "[XceptionNet] Starting training..."
-    echo "Config: configs/xceptionnet.yaml"
+    echo "Config: configs/xception.yaml"
     echo "Device: $DEVICE"
     echo ""
     
     python3 -m src.training.train \
-        --config configs/xceptionnet.yaml \
+        --config configs/xception.yaml \
         --device $DEVICE \
         --experiment-name "xceptionnet_$(date +%Y%m%d_%H%M%S)"
     
@@ -49,12 +49,12 @@ train_xceptionnet() {
 train_efficientnet() {
     echo ""
     echo "[EfficientNet] Starting training..."
-    echo "Config: configs/efficientnet.yaml"
+    echo "Config: configs/efficientnet_b0.yaml"
     echo "Device: $DEVICE"
     echo ""
     
     python3 -m src.training.train \
-        --config configs/efficientnet.yaml \
+        --config configs/efficientnet_b0.yaml \
         --device $DEVICE \
         --experiment-name "efficientnet_$(date +%Y%m%d_%H%M%S)"
     

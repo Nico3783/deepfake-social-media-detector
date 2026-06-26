@@ -1,7 +1,7 @@
 """Deep learning model definitions for deepfake detection."""
 
-from src.models.xception_model import XceptionDeepfakeDetector
-from src.models.efficientnet_model import EfficientNetDeepfakeDetector
-from src.models.model_factory import ModelFactory
+from src.models.xception import XceptionNet
+from src.models.efficientnet import EfficientNetModel
+from src.models.model_factory import create_model
 
-__all__ = ["XceptionDeepfakeDetector", "EfficientNetDeepfakeDetector", "ModelFactory"]
+__all__ = ["XceptionNet", "EfficientNetModel", "create_model"]

@@ -49,8 +49,35 @@ pip install --upgrade pip
 # Install PyTorch (with CUDA if GPU available)
 echo "[6/7] Installing PyTorch..."
 if [ "$HAS_GPU" = true ]; then
-    echo "Installing PyTorch with CUDA support..."
-    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    # Detect CUDA version dynamically
+    CUDA_VERSION=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -1)
+    if command -v nvcc &> /dev/null; then
+        CUDA_MAJOR=$(nvcc --version | grep -oP 'release \K\d+\.\d+' | cut -d. -f1)
+        CUDA_MINOR=$(nvcc --version | grep -oP 'release \K\d+\.\d+' | cut -d. -f2)
+    else
+        # Fallback: check nvidia-smi for CUDA version
+        CUDA_VER=$(nvidia-smi 2>/dev/null | grep -oP 'CUDA Version: \K\d+\.\d+' || echo "")
+        if [ -n "$CUDA_VER" ]; then
+            CUDA_MAJOR=$(echo "$CUDA_VER" | cut -d. -f1)
+            CUDA_MINOR=$(echo "$CUDA_VER" | cut -d. -f2)
+        else
+            CUDA_MAJOR=12
+            CUDA_MINOR=1
+        fi
+    fi
+    echo "Detected CUDA $CUDA_MAJOR.$CUDA_MINOR"
+    # Map CUDA version to PyTorch wheel index
+    if [ "$CUDA_MAJOR" -ge 12 ]; then
+        CUDA_TAG="cu121"
+    elif [ "$CUDA_MAJOR" -ge 11 ] && [ "$CUDA_MINOR" -ge 8 ]; then
+        CUDA_TAG="cu118"
+    elif [ "$CUDA_MAJOR" -ge 11 ]; then
+        CUDA_TAG="cu117"
+    else
+        CUDA_TAG="cu118"
+    fi
+    echo "Installing PyTorch with CUDA support ($CUDA_TAG)..."
+    pip install torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/$CUDA_TAG"
 else
     echo "Installing PyTorch CPU version..."
     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu

@@ -25,7 +25,7 @@ import numpy as np
 import seaborn as sns
 
 from src.utils.logger import setup_logger
-from src.utils.paths import PathConfig
+from src.config.paths import PathConfig
 
 logger = setup_logger(__name__)
 

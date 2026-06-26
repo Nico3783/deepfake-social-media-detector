@@ -21,6 +21,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from PIL import Image
+from torchvision import transforms
+
 from src.utils.logger import setup_logger
 from src.utils.helpers import get_device
 
@@ -65,7 +68,7 @@ class FrameAnalyzer:
     def __init__(
         self,
         model: nn.Module,
-        device: torch.device | None = None,
+        device: torch.device | str | None = None,
         threshold: float = 0.5,
     ) -> None:
         """Initialize frame analyzer.
@@ -75,6 +78,8 @@ class FrameAnalyzer:
             device: Device for inference.
             threshold: Classification threshold.
         """
+        if isinstance(device, str):
+            device = torch.device(device)
         self.model = model
         self.device = device or get_device()
         self.threshold = threshold
@@ -82,7 +87,58 @@ class FrameAnalyzer:
         self.model = self.model.to(self.device)
         self.model.eval()
 
+        self._preprocess = transforms.Compose([
+            transforms.Resize((299, 299)),
+            transforms.ToTensor(),
+        ])
+
         logger.info(f"FrameAnalyzer initialized: threshold={threshold}")
+
+    def _load_frames(
+        self,
+        paths: list[Path],
+        indices: list[int],
+    ) -> torch.Tensor:
+        """Load and preprocess images from disk.
+
+        Args:
+            paths: List of image file paths.
+            indices: Frame indices corresponding to paths.
+
+        Returns:
+            Tensor of shape (N, C, H, W).
+        """
+        images = []
+        for p in paths:
+            img = Image.open(p).convert("RGB")
+            images.append(self._preprocess(img))
+        return torch.stack(images, dim=0)
+
+    @torch.no_grad()
+    def analyze_video(
+        self,
+        paths: list[Path],
+        indices: list[int],
+        timestamps: list[float],
+        video_path: str = "unknown",
+    ) -> VideoAnalysis:
+        """Analyze video frames loaded from disk.
+
+        Args:
+            paths: List of image file paths.
+            indices: Frame index for each path.
+            timestamps: Timestamp in seconds for each frame.
+            video_path: Path to the source video.
+
+        Returns:
+            VideoAnalysis with per-frame details.
+        """
+        frames = self._load_frames(paths, indices)
+        return self.analyze_frames(
+            frames,
+            timestamps=timestamps,
+            video_path=video_path,
+        )
 
     @torch.no_grad()
     def analyze_frames(

@@ -7,8 +7,9 @@ import torch
 import torch.nn as nn
 
 from src.models.xception import XceptionNet
-from src.models.efficientnet import EfficientNetClassifier
-from src.models.model_factory import ModelFactory
+from src.models.efficientnet import EfficientNetModel
+from src.models.model_factory import create_model
+from src.config.settings import ModelConfig
 
 
 class TestXceptionNet:
@@ -36,7 +37,6 @@ class TestXceptionNet:
         model.eval()
         with torch.no_grad():
             output = model(dummy_tensor.to(device))
-        # Logits can be any real value, not bounded to [0,1]
         assert output.dtype == torch.float32
 
     def test_batch_forward(self, device: torch.device) -> None:
@@ -65,13 +65,13 @@ class TestEfficientNet:
 
     def test_create_efficientnet(self, device: torch.device) -> None:
         """EfficientNet initializes without error."""
-        model = EfficientNetClassifier(num_classes=2, pretrained=False)
+        model = EfficientNetModel(variant="B0", num_classes=2, pretrained=False)
         model.to(device)
         assert isinstance(model, nn.Module)
 
     def test_forward_pass(self, device: torch.device) -> None:
         """EfficientNet produces correct output shape."""
-        model = EfficientNetClassifier(num_classes=2, pretrained=False)
+        model = EfficientNetModel(variant="B0", num_classes=2, pretrained=False)
         model.to(device)
         model.eval()
         inp = torch.randn(1, 3, 224, 224).to(device)
@@ -81,26 +81,30 @@ class TestEfficientNet:
 
 
 class TestModelFactory:
-    """Tests for ModelFactory."""
+    """Tests for create_model factory function."""
 
     def test_create_xception(self) -> None:
         """Factory creates XceptionNet correctly."""
-        model = ModelFactory.create_model("xception", num_classes=2)
+        config = ModelConfig(name="xception", num_classes=2, pretrained=False)
+        model = create_model(config)
         assert isinstance(model, XceptionNet)
 
     def test_create_efficientnet(self) -> None:
         """Factory creates EfficientNet correctly."""
-        model = ModelFactory.create_model("efficientnet", num_classes=2)
-        assert isinstance(model, EfficientNetClassifier)
+        config = ModelConfig(name="efficientnet_b0", num_classes=2, pretrained=False)
+        model = create_model(config)
+        assert isinstance(model, EfficientNetModel)
 
     def test_create_unknown_raises(self) -> None:
         """Factory raises ValueError for unknown model."""
+        config = ModelConfig(name="unknown_model", num_classes=2)
         with pytest.raises(ValueError):
-            ModelFactory.create_model("unknown_model", num_classes=2)
+            create_model(config)
 
     def test_model_forward(self) -> None:
         """Factory-produced model supports forward pass."""
-        model = ModelFactory.create_model("xception", num_classes=2)
+        config = ModelConfig(name="xception", num_classes=2, pretrained=False)
+        model = create_model(config)
         model.eval()
         inp = torch.randn(1, 3, 299, 299)
         with torch.no_grad():

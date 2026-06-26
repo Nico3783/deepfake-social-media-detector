@@ -128,6 +128,7 @@ class ModelCheckpoint(Callback):
     """Model checkpoint callback.
 
     Saves model checkpoints based on validation performance.
+    Supports full resume by saving optimizer and scheduler state when provided.
     """
 
     def __init__(
@@ -138,6 +139,8 @@ class ModelCheckpoint(Callback):
         save_best: bool = True,
         save_last: bool = True,
         save_top_k: int = 3,
+        optimizer: Any | None = None,
+        scheduler: Any | None = None,
     ) -> None:
         """Initialize model checkpoint.
 
@@ -148,6 +151,8 @@ class ModelCheckpoint(Callback):
             save_best: Save the best model.
             save_last: Save the last model.
             save_top_k: Number of top models to keep.
+            optimizer: Optimizer to save state for resume.
+            scheduler: LR scheduler to save state for resume.
         """
         self.save_dir = Path(save_dir)
         self.save_dir.mkdir(parents=True, exist_ok=True)
@@ -157,6 +162,8 @@ class ModelCheckpoint(Callback):
         self.save_best = save_best
         self.save_last = save_last
         self.save_top_k = save_top_k
+        self.optimizer = optimizer
+        self.scheduler = scheduler
 
         self.best_score = None
         self.checkpoints = []
@@ -170,12 +177,14 @@ class ModelCheckpoint(Callback):
             model: Current model.
 
         Returns:
-            True to continue training.
+            True to continue training, False to stop.
         """
         score = metrics.get(self.monitor)
 
         if score is None:
-            return True
+            return not self.save_best
+
+        improved = False
 
         # Save last model
         if self.save_last:
@@ -186,18 +195,19 @@ class ModelCheckpoint(Callback):
         if self.save_best:
             if self.best_score is None:
                 self.best_score = score
-                best_path = self.save_dir / "best_model.pth"
-                self._save_checkpoint(model, epoch, metrics, best_path)
+                improved = True
             elif self.mode == "min" and score < self.best_score:
                 self.best_score = score
-                best_path = self.save_dir / "best_model.pth"
-                self._save_checkpoint(model, epoch, metrics, best_path)
+                improved = True
             elif self.mode == "max" and score > self.best_score:
                 self.best_score = score
-                best_path = self.save_dir / "best_model.pth"
+                improved = True
+
+            if improved:
+                best_path = self.save_dir / f"best_model_epoch_{epoch}.pt"
                 self._save_checkpoint(model, epoch, metrics, best_path)
 
-        return True
+        return False
 
     def _save_checkpoint(
         self,
@@ -206,7 +216,7 @@ class ModelCheckpoint(Callback):
         metrics: dict[str, float],
         path: Path,
     ) -> None:
-        """Save model checkpoint.
+        """Save model checkpoint with optional optimizer/scheduler state.
 
         Args:
             model: Model to save.
@@ -219,6 +229,15 @@ class ModelCheckpoint(Callback):
             "model_state_dict": model.state_dict(),
             "metrics": metrics,
         }
+
+        # Save optimizer state for resume
+        if self.optimizer is not None and hasattr(self.optimizer, "state_dict"):
+            checkpoint["optimizer_state_dict"] = self.optimizer.state_dict()
+
+        # Save scheduler state for resume
+        if self.scheduler is not None and hasattr(self.scheduler, "state_dict"):
+            checkpoint["scheduler_state_dict"] = self.scheduler.state_dict()
+
         torch.save(checkpoint, path)
         logger.info(f"Saved checkpoint to {path}")
 
@@ -240,7 +259,7 @@ class LRScheduler(Callback):
         self.scheduler = scheduler
         self.monitor = monitor
 
-    def on_epoch_end(self, epoch: int, metrics: dict[str, float], model: nn.Module) -> bool:
+    def on_epoch_end(self, epoch: int, metrics: dict[str, float], model: nn.Module | None = None) -> bool:
         """Step the scheduler.
 
         Args:
@@ -260,3 +279,116 @@ class LRScheduler(Callback):
                 self.scheduler.step()
 
         return True
+
+
+class TensorBoardCallback(Callback):
+    """TensorBoard logging callback.
+
+    Logs training and validation metrics to TensorBoard.
+    """
+
+    def __init__(self, log_dir: str | Path = "outputs/logs") -> None:
+        """Initialize TensorBoard callback.
+
+        Args:
+            log_dir: Directory for TensorBoard logs.
+        """
+        self.log_dir = Path(log_dir)
+        self.writer = None
+
+    def _ensure_writer(self) -> None:
+        """Lazily initialize TensorBoard writer."""
+        if self.writer is None:
+            from torch.utils.tensorboard import SummaryWriter
+
+            self.log_dir.mkdir(parents=True, exist_ok=True)
+            self.writer = SummaryWriter(log_dir=str(self.log_dir))
+
+    def on_epoch_end(self, epoch: int, metrics: dict[str, float], model: nn.Module) -> bool:
+        """Log metrics to TensorBoard.
+
+        Args:
+            epoch: Current epoch.
+            metrics: Current metrics.
+            model: Current model.
+
+        Returns:
+            True to continue training.
+        """
+        self._ensure_writer()
+
+        for key, value in metrics.items():
+            if isinstance(value, (int, float)):
+                self.writer.add_scalar(key, value, epoch)
+
+        # Log learning rate
+        for param_group in model.parameters():
+            if hasattr(param_group, "lr"):
+                self.writer.add_scalar("learning_rate", param_group.lr, epoch)
+                break
+
+        self.writer.flush()
+        return True
+
+    def on_train_end(self, model: nn.Module) -> None:
+        """Close TensorBoard writer.
+
+        Args:
+            model: The trained model.
+        """
+        if self.writer is not None:
+            self.writer.close()
+
+
+class MixedPrecisionManager:
+    """Mixed precision training manager.
+
+    Handles automatic mixed precision (AMP) for faster training.
+    """
+
+    def __init__(self, enabled: bool = True) -> None:
+        """Initialize mixed precision manager.
+
+        Args:
+            enabled: Whether to enable AMP.
+        """
+        self.enabled = enabled
+        self.scaler = torch.amp.GradScaler("cuda") if enabled else None
+
+    def forward(self, model: nn.Module, inputs: torch.Tensor) -> torch.Tensor:
+        """Run forward pass with optional AMP.
+
+        Args:
+            model: Model to run.
+            inputs: Input tensor.
+
+        Returns:
+            Model output.
+        """
+        if self.enabled:
+            with torch.amp.autocast("cuda"):
+                return model(inputs)
+        return model(inputs)
+
+    def backward(self, loss: torch.Tensor) -> None:
+        """Run backward pass with optional AMP scaling.
+
+        Args:
+            loss: Loss tensor.
+        """
+        if self.enabled and self.scaler is not None:
+            self.scaler.scale(loss).backward()
+        else:
+            loss.backward()
+
+    def step(self, optimizer: torch.optim.Optimizer) -> None:
+        """Step optimizer with optional AMP unscaling.
+
+        Args:
+            optimizer: Optimizer to step.
+        """
+        if self.enabled and self.scaler is not None:
+            self.scaler.step(optimizer)
+            self.scaler.update()
+        else:
+            optimizer.step()
