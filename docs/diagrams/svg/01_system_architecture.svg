@@ -255,21 +255,21 @@
 
 <!-- Step boxes -->
 <rect x="50" y="460" width="110" height="55" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
-<text x="105" y="482" text-anchor="middle" font-size="16">&#128249;</text>
+<polygon points="97,475 97,490 113,482.5" fill="#1565C0"/><rect x="95" y="474" width="20" height="18" rx="2" fill="none" stroke="#1565C0" stroke-width="1.2"/>
 <text x="105" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Video Upload</text>
 <text x="105" y="509" text-anchor="middle" font-size="7" fill="#546E7A">MP4, AVI, MOV</text>
 
 <line x1="160" y1="487" x2="178" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
 
 <rect x="183" y="460" width="110" height="55" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
-<text x="238" y="482" text-anchor="middle" font-size="16">&#127910;</text>
+<rect x="228" y="474" width="20" height="18" rx="2" fill="none" stroke="#2E7D32" stroke-width="1.2"/><line x1="228" y1="480" x2="248" y2="480" stroke="#2E7D32" stroke-width="0.8"/><line x1="228" y1="486" x2="248" y2="486" stroke="#2E7D32" stroke-width="0.8"/><line x1="235" y1="474" x2="235" y2="492" stroke="#2E7D32" stroke-width="0.8"/><line x1="241" y1="474" x2="241" y2="492" stroke="#2E7D32" stroke-width="0.8"/>
 <text x="238" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Frame Extract</text>
 <text x="238" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Every 2nd, max 10</text>
 
 <line x1="293" y1="487" x2="311" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
 
 <rect x="316" y="460" width="110" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.2"/>
-<text x="371" y="482" text-anchor="middle" font-size="16">&#128269;</text>
+<circle cx="371" cy="481" r="7" fill="none" stroke="#E65100" stroke-width="1.5"/><line x1="376" y1="487" x2="382" y2="493" stroke="#E65100" stroke-width="1.5"/>
 <text x="371" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Face Detect</text>
 <text x="371" y="509" text-anchor="middle" font-size="7" fill="#546E7A">MTCNN + RetinaFace</text>
 
@@ -294,7 +294,7 @@
 
 <!-- Inference Engine -->
 <rect x="735" y="460" width="110" height="55" rx="6" fill="#E0F7FA" stroke="#00695C" stroke-width="1.2"/>
-<text x="790" y="482" text-anchor="middle" font-size="16">&#129504;</text>
+<rect x="782" y="474" width="16" height="16" rx="2" fill="none" stroke="#00695C" stroke-width="1.2"/><line x1="786" y1="478" x2="794" y2="478" stroke="#00695C" stroke-width="0.8"/><line x1="786" y1="482" x2="794" y2="482" stroke="#00695C" stroke-width="0.8"/><line x1="786" y1="486" x2="794" y2="486" stroke="#00695C" stroke-width="0.8"/><line x1="790" y1="474" x2="790" y2="490" stroke="#00695C" stroke-width="0.8"/>
 <text x="790" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">GPU Inference</text>
 <text x="790" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Forward pass</text>
 
@@ -302,7 +302,7 @@
 
 <!-- Aggregate -->
 <rect x="868" y="460" width="110" height="55" rx="6" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.2"/>
-<text x="923" y="482" text-anchor="middle" font-size="16">&#128202;</text>
+<rect x="913" y="486" width="5" height="6" fill="#AD1457"/><rect x="920" y="480" width="5" height="12" fill="#AD1457"/><rect x="927" y="476" width="5" height="16" fill="#AD1457"/><line x1="911" y1="492" x2="934" y2="492" stroke="#AD1457" stroke-width="0.8"/>
 <text x="923" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Aggregate</text>
 <text x="923" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Mean/Vote/Weight</text>
 
@@ -361,7 +361,7 @@
 
 <!-- Upload zone -->
 <rect x="200" y="668" width="180" height="50" rx="5" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1" stroke-dasharray="4,3"/>
-<text x="290" y="690" text-anchor="middle" font-size="10">&#128228;</text>
+<line x1="290" y1="696" x2="290" y2="682" stroke="#757575" stroke-width="1.5"/><polyline points="282,690 290,682 298,690" fill="none" stroke="#757575" stroke-width="1.5"/><line x1="274" y1="698" x2="306" y2="698" stroke="#757575" stroke-width="1.2"/>
 <text x="290" y="704" text-anchor="middle" font-size="7" fill="#757575">Drag &amp; drop or click to upload</text>
 
 <!-- Analyse button -->
@@ -495,7 +495,7 @@
 <rect x="495" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#E65100" stroke-width="1"/>
 <text x="595" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#BF360C">INFERENCE PIPELINE</text>
 <text x="510" y="914" font-size="7" fill="#546E7A">Video &#8594; Frames &#8594; Faces &#8594; Model &#8594; Result</text>
-<text x="510" y="926" font-size="7" fill="#546E7A">Frame-level &#8594 Video-level aggregation</text>
+<text x="510" y="926" font-size="7" fill="#546E7A">Frame-level &#8594; Video-level aggregation</text>
 <text x="510" y="938" font-size="7" fill="#546E7A">Real-time deepfake detection</text>
 
 <rect x="715" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
