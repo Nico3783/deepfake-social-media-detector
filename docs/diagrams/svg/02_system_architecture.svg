@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1050" font-family="'Segoe UI',system-ui,-apple-system,sans-serif">
+  <defs>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="12" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="12" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1050" fill="#f8fafc"/>
+
+  <!-- ═══════════════════════ TITLE ═══════════════════════ -->
+  <text x="800" y="50" text-anchor="middle" font-size="34" font-weight="700" fill="#1e293b" letter-spacing="3">SYSTEM ARCHITECTURE</text>
+  <text x="800" y="80" text-anchor="middle" font-size="16" fill="#94a3b8">Detection of Social Media Deepfake Contents Using Deep Learning</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 1: TRAINING PIPELINE -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <rect x="80" y="105" width="1340" height="36" rx="6" fill="#f1f5f9"/>
+  <text x="100" y="129" font-size="15" font-weight="700" fill="#475569" letter-spacing="2">TRAINING PIPELINE</text>
+
+  <!-- ──────────── 1. Database / Datasets ──────────── -->
+  <g transform="translate(100,160)">
+    <g filter="url(#sh)">
+      <ellipse cx="55" cy="18" rx="48" ry="16" fill="#93c5fd"/>
+      <rect x="7" y="18" width="96" height="60" fill="#3b82f6"/>
+      <ellipse cx="55" cy="78" rx="48" ry="16" fill="#2563eb"/>
+      <ellipse cx="55" cy="18" rx="48" ry="16" fill="#93c5fd"/>
+      <line x1="7" y1="18" x2="7" y2="78" stroke="#2563eb" stroke-width="1.2"/>
+      <line x1="103" y1="18" x2="103" y2="78" stroke="#2563eb" stroke-width="1.2"/>
+      <ellipse cx="55" cy="38" rx="48" ry="10" fill="none" stroke="#bfdbfe" stroke-width="1"/>
+      <ellipse cx="55" cy="58" rx="48" ry="10" fill="none" stroke="#bfdbfe" stroke-width="1"/>
+    </g>
+  </g>
+  <text x="155" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Datasets</text>
+  <text x="155" y="294" text-anchor="middle" font-size="13" fill="#64748b">FaceForensics++ · Celeb-DF</text>
+  <text x="155" y="314" text-anchor="middle" font-size="13" fill="#64748b">Real / Fake video pairs</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="218" y1="215" x2="290" y2="215" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 2. Gear / Preprocessing ──────────── -->
+  <g transform="translate(302,152)">
+    <g filter="url(#sh)">
+      <circle cx="62" cy="55" r="44" fill="none" stroke="#22c55e" stroke-width="6"/>
+      <rect x="57" y="3" width="10" height="18" rx="3" fill="#22c55e"/>
+      <rect x="57" y="89" width="10" height="18" rx="3" fill="#22c55e"/>
+      <rect x="3" y="50" width="18" height="10" rx="3" fill="#22c55e"/>
+      <rect x="103" y="50" width="18" height="10" rx="3" fill="#22c55e"/>
+      <rect x="18" y="12" width="10" height="18" rx="3" fill="#22c55e" transform="rotate(45,23,21)"/>
+      <rect x="96" y="12" width="10" height="18" rx="3" fill="#22c55e" transform="rotate(-45,101,21)"/>
+      <rect x="18" y="80" width="10" height="18" rx="3" fill="#22c55e" transform="rotate(-45,23,89)"/>
+      <rect x="96" y="80" width="10" height="18" rx="3" fill="#22c55e" transform="rotate(45,101,89)"/>
+      <circle cx="62" cy="55" r="22" fill="#dcfce7"/>
+      <path d="M50,68 L74,38 M70,34 L78,42 M74,38 L66,30" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+  <text x="362" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Preprocessing</text>
+  <text x="362" y="294" text-anchor="middle" font-size="13" fill="#64748b">Resize · Normalize · Augment</text>
+  <text x="362" y="314" text-anchor="middle" font-size="13" fill="#64748b">299×299 / 224×224</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="448" y1="215" x2="530" y2="215" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 3. Face / Face Detection ──────────── -->
+  <g transform="translate(542,162)">
+    <g filter="url(#sh)">
+      <rect x="15" y="5" width="70" height="80" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2.5"/>
+      <circle cx="38" cy="35" r="6" fill="#0ea5e9"/>
+      <circle cx="62" cy="35" r="6" fill="#0ea5e9"/>
+      <path d="M35,55 Q50,68 65,55" stroke="#0ea5e9" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <rect x="8" y="0" width="84" height="90" rx="10" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="6,4"/>
+    </g>
+  </g>
+  <text x="592" y="272" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Face Detection</text>
+  <text x="592" y="296" text-anchor="middle" font-size="13" fill="#64748b">MTCNN / RetinaFace</text>
+  <text x="592" y="316" text-anchor="middle" font-size="13" fill="#64748b">Extract face regions</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="645" y1="215" x2="720" y2="215" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 4. Brain / Model Training ──────────── -->
+  <g transform="translate(732,160)">
+    <g filter="url(#sh)">
+      <ellipse cx="65" cy="50" rx="55" ry="44" fill="#ede9fe" stroke="#8b5cf6" stroke-width="3"/>
+      <path d="M36,32 Q65,12 94,35" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M28,52 Q62,34 98,54" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M33,72 Q65,55 94,74" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M58,20 L46,50 L60,50 L50,78" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+  <text x="798" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Model Training</text>
+  <text x="798" y="294" text-anchor="middle" font-size="13" fill="#64748b">XceptionNet · EfficientNet</text>
+  <text x="798" y="316" text-anchor="middle" font-size="12" fill="#8b5cf6" font-weight="600">Transfer learning · Adam lr=0.001</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="865" y1="215" x2="940" y2="215" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 5. Gauge / Evaluation ──────────── -->
+  <g transform="translate(952,155)">
+    <g filter="url(#sh)">
+      <path d="M12,85 A62,62 0 0,1 124,85" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round"/>
+      <path d="M12,85 A62,62 0 0,1 116,44" fill="none" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
+      <line x1="68" y1="85" x2="104" y2="44" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="85" r="6" fill="#1e293b"/>
+    </g>
+  </g>
+  <text x="1020" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Evaluation</text>
+  <text x="1020" y="294" text-anchor="middle" font-size="13" fill="#64748b">Accuracy · F1 · ROC-AUC</text>
+  <text x="1020" y="314" text-anchor="middle" font-size="13" fill="#64748b">Confusion Matrix</text>
+
+  <!-- Arrow 5→6 -->
+  <line x1="1095" y1="215" x2="1160" y2="215" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 6. Document / Export ──────────── -->
+  <g transform="translate(1172,155)">
+    <g filter="url(#sh)">
+      <rect x="8" y="5" width="75" height="95" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="22" y1="28" x2="68" y2="28" stroke="#e2e8f0" stroke-width="2.5"/>
+      <line x1="22" y1="42" x2="62" y2="42" stroke="#e2e8f0" stroke-width="2.5"/>
+      <line x1="22" y1="56" x2="66" y2="56" stroke="#e2e8f0" stroke-width="2.5"/>
+      <rect x="22" y="68" width="11" height="22" fill="#3b82f6" rx="1.5"/>
+      <rect x="37" y="62" width="11" height="28" fill="#8b5cf6" rx="1.5"/>
+      <rect x="52" y="66" width="11" height="24" fill="#22c55e" rx="1.5"/>
+    </g>
+  </g>
+  <text x="1215" y="278" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Export</text>
+  <text x="1215" y="302" text-anchor="middle" font-size="13" fill="#64748b">ONNX · TensorRT</text>
+  <text x="1215" y="322" text-anchor="middle" font-size="13" fill="#64748b">Compressed models</text>
+
+  <!-- Model artifact label -->
+  <rect x="740" y="340" width="170" height="32" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="825" y="362" text-anchor="middle" font-size="13" font-weight="600" fill="#64748b">models/trained/*.pth</text>
+
+  <!-- DASHED: models loaded at inference time -->
+  <path d="M825,375 L825,480 L380,480 L380,515" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="8,5" fill="none" marker-end="url(#arr)"/>
+  <text x="600" y="472" text-anchor="middle" font-size="13" fill="#8b5cf6" font-style="italic">Trained models loaded at inference time</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- ROW 2: LIVE INFERENCE PIPELINE -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <rect x="80" y="510" width="1340" height="36" rx="6" fill="#f1f5f9"/>
+  <text x="100" y="534" font-size="15" font-weight="700" fill="#475569" letter-spacing="2">LIVE INFERENCE PIPELINE</text>
+
+  <!-- ──────────── 7. Play / YouTube URL ──────────── -->
+  <g transform="translate(100,555)">
+    <g filter="url(#sh)">
+      <rect x="5" y="5" width="100" height="75" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-width="2.5"/>
+      <polygon points="42,24 42,60 76,42" fill="#ef4444"/>
+      <rect x="5" y="5" width="100" height="75" rx="12" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.3"/>
+    </g>
+  </g>
+  <text x="155" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">YouTube URL</text>
+  <text x="155" y="679" text-anchor="middle" font-size="13" fill="#64748b">Paste video link</text>
+
+  <!-- Arrow 7→8 -->
+  <line x1="215" y1="605" x2="290" y2="605" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 8. Download / Video Download ──────────── -->
+  <g transform="translate(302,555)">
+    <g filter="url(#sh)">
+      <rect x="8" y="5" width="100" height="75" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.5"/>
+      <line x1="58" y1="20" x2="58" y2="52" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+      <polyline points="38,40 58,60 78,40" stroke="#3b82f6" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="30" y1="64" x2="86" y2="64" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </g>
+  <text x="362" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Video Download</text>
+  <text x="362" y="679" text-anchor="middle" font-size="13" fill="#64748b">yt-dlp extraction</text>
+
+  <!-- Arrow 8→9 -->
+  <line x1="420" y1="605" x2="510" y2="605" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 9. Face / Face Detection ──────────── -->
+  <g transform="translate(522,555)">
+    <g filter="url(#sh)">
+      <rect x="15" y="5" width="70" height="75" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2.5"/>
+      <circle cx="38" cy="30" r="5" fill="#0ea5e9"/>
+      <circle cx="62" cy="30" r="5" fill="#0ea5e9"/>
+      <path d="M35,48 Q50,58 65,48" stroke="#0ea5e9" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <rect x="8" y="0" width="84" height="85" rx="10" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="6,4"/>
+    </g>
+  </g>
+  <text x="572" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Face Detection</text>
+  <text x="572" y="679" text-anchor="middle" font-size="13" fill="#64748b">MTCNN detection</text>
+
+  <!-- Arrow 9→10 -->
+  <line x1="615" y1="605" x2="700" y2="605" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 10. Film Strip / Frame Extraction ──────────── -->
+  <g transform="translate(712,555)">
+    <g filter="url(#sh)">
+      <rect x="8" y="5" width="100" height="75" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5"/>
+      <rect x="14" y="12" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="36" y="12" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="58" y="12" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="80" y="12" width="18" height="14" rx="2" fill="#f59e0b" opacity="0.4"/>
+      <rect x="14" y="30" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="36" y="30" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="58" y="30" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="80" y="30" width="18" height="14" rx="2" fill="#f59e0b" opacity="0.4"/>
+      <rect x="14" y="48" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="36" y="48" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="58" y="48" width="18" height="14" rx="2" fill="#f59e0b"/>
+      <rect x="80" y="48" width="18" height="14" rx="2" fill="#f59e0b" opacity="0.4"/>
+    </g>
+  </g>
+  <text x="762" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Frame Extraction</text>
+  <text x="762" y="679" text-anchor="middle" font-size="13" fill="#64748b">Every 2nd frame · Max 10</text>
+
+  <!-- Arrow 10→11 -->
+  <line x1="825" y1="605" x2="900" y2="605" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 11. Brain / Model Inference ──────────── -->
+  <g transform="translate(912,555)">
+    <g filter="url(#sh)">
+      <ellipse cx="50" cy="40" rx="44" ry="35" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5"/>
+      <path d="M26,28 Q50,12 74,30" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M20,42 Q48,28 80,44" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M24,56 Q50,42 76,58" stroke="#8b5cf6" stroke-width="2.5" fill="none"/>
+      <path d="M44,16 L36,40 L48,40 L40,64" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+  <text x="962" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Model Inference</text>
+  <text x="962" y="679" text-anchor="middle" font-size="13" fill="#64748b">XceptionNet + EfficientNet</text>
+  <text x="962" y="701" text-anchor="middle" font-size="12" fill="#8b5cf6" font-weight="600">Frame-level predictions</text>
+
+  <!-- Arrow 11→12 -->
+  <line x1="1015" y1="605" x2="1090" y2="605" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- ──────────── 12. Bar Chart / Aggregation ──────────── -->
+  <g transform="translate(1102,555)">
+    <g filter="url(#sh)">
+      <rect x="8" y="5" width="100" height="75" rx="8" fill="#f0fdf4" stroke="#22c55e" stroke-width="2.5"/>
+      <rect x="18" y="50" width="14" height="25" rx="2" fill="#22c55e"/>
+      <rect x="36" y="35" width="14" height="40" rx="2" fill="#22c55e"/>
+      <rect x="54" y="22" width="14" height="53" rx="2" fill="#22c55e"/>
+      <rect x="72" y="40" width="14" height="35" rx="2" fill="#22c55e"/>
+      <line x1="14" y1="78" x2="92" y2="78" stroke="#16a34a" stroke-width="2"/>
+    </g>
+  </g>
+  <text x="1152" y="655" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Aggregation</text>
+  <text x="1152" y="679" text-anchor="middle" font-size="13" fill="#64748b">Video-level decision</text>
+  <text x="1152" y="701" text-anchor="middle" font-size="12" fill="#22c55e" font-weight="600">Mean / Max / Weighted</text>
+
+  <!-- Arrow 12→13 -->
+  <line x1="1215" y1="605" x2="1280" y2="605" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrG)"/>
+
+  <!-- ──────────── 13. Monitor / Dashboard ──────────── -->
+  <g transform="translate(1292,545)">
+    <g filter="url(#sh)">
+      <rect x="70" y="86" width="28" height="16" fill="#94a3b8"/>
+      <rect x="56" y="100" width="56" height="8" rx="4" fill="#64748b"/>
+      <rect x="5" y="5" width="150" height="86" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+      <rect x="12" y="12" width="136" height="16" rx="3" fill="#334155"/>
+      <rect x="12" y="34" width="40" height="24" rx="3" fill="#0d9488"/>
+      <rect x="56" y="34" width="40" height="24" rx="3" fill="#2563eb"/>
+      <rect x="100" y="34" width="40" height="24" rx="3" fill="#7c3aed"/>
+      <polyline points="12,74 38,66 64,70 90,60 116,62 142,54" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+      <polyline points="12,78 38,72 64,74 90,68 116,70 142,64" stroke="#f97316" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+    </g>
+  </g>
+  <text x="1372" y="680" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">Streamlit Dashboard</text>
+  <text x="1372" y="704" text-anchor="middle" font-size="13" fill="#64748b">Real-time results UI</text>
+  <text x="1372" y="726" text-anchor="middle" font-size="13" fill="#64748b">Video playback · Scores</text>
+
+  <!-- ═══════════════════════ LEGEND ═══════════════════════ -->
+  <rect x="80" y="780" width="1340" height="55" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="110" y="815" font-size="14" font-weight="800" fill="#1e293b" letter-spacing="1">LEGEND</text>
+
+  <circle cx="210" cy="808" r="8" fill="#3b82f6"/>
+  <text x="225" y="813" font-size="13" font-weight="700" fill="#475569">Data Source</text>
+
+  <rect x="320" y="800" width="16" height="16" rx="4" fill="#22c55e"/>
+  <text x="342" y="813" font-size="13" font-weight="700" fill="#475569">Preprocessing</text>
+
+  <rect x="460" y="800" width="16" height="16" rx="4" fill="#8b5cf6"/>
+  <text x="482" y="813" font-size="13" font-weight="700" fill="#475569">ML Model</text>
+
+  <rect x="570" y="800" width="16" height="16" rx="4" fill="#0ea5e9"/>
+  <text x="592" y="813" font-size="13" font-weight="700" fill="#475569">Face Detection</text>
+
+  <rect x="720" y="800" width="16" height="16" rx="4" fill="#f59e0b"/>
+  <text x="742" y="813" font-size="13" font-weight="700" fill="#475569">Frame Extraction</text>
+
+  <rect x="880" y="800" width="16" height="16" rx="4" fill="#ef4444"/>
+  <text x="902" y="813" font-size="13" font-weight="700" fill="#475569">Input</text>
+
+  <rect x="970" y="800" width="16" height="16" rx="4" fill="#1e293b"/>
+  <text x="992" y="813" font-size="13" font-weight="700" fill="#475569">Dashboard</text>
+
+  <line x1="1080" y1="808" x2="1128" y2="808" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+  <text x="1138" y="813" font-size="13" font-weight="700" fill="#475569">Data flow</text>
+
+  <line x1="1220" y1="808" x2="1268" y2="808" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="8,5" marker-end="url(#arr)"/>
+  <text x="1278" y="813" font-size="13" font-weight="700" fill="#475569">Model load</text>
+
+  <!-- ═══════════════════════ KEY METRICS BAR ═══════════════════════ -->
+  <rect x="80" y="848" width="1340" height="44" rx="8" fill="#1e293b"/>
+  <text x="110" y="877" font-size="14" font-weight="800" fill="#e2e8f0" letter-spacing="1">CONTRIBUTIONS</text>
+
+  <rect x="280" y="858" width="240" height="26" rx="13" fill="#065f46"/>
+  <text x="400" y="877" text-anchor="middle" font-size="13" font-weight="700" fill="#6ee7b7">C1: Comparative Evaluation</text>
+
+  <rect x="540" y="858" width="220" height="26" rx="13" fill="#1e3a5f"/>
+  <text x="650" y="877" text-anchor="middle" font-size="13" font-weight="700" fill="#93c5fd">C2: Cross-Dataset Testing</text>
+
+  <rect x="780" y="858" width="250" height="26" rx="13" fill="#4c1d95"/>
+  <text x="905" y="877" text-anchor="middle" font-size="13" font-weight="700" fill="#c4b5fd">C3: Compression Analysis</text>
+
+  <rect x="1050" y="858" width="250" height="26" rx="13" fill="#7c2d12"/>
+  <text x="1175" y="877" text-anchor="middle" font-size="13" font-weight="700" fill="#fdba74">C4: Social Media Pipeline</text>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <rect x="80" y="905" width="1340" height="30" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="800" y="926" text-anchor="middle" font-size="14" font-weight="800" fill="#1e293b">Detection of Social Media Deepfake Contents Using Deep Learning · FUTA Cyber Security · 2026</text>
+</svg>

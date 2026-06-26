@@ -447,13 +447,14 @@ The recommended way to run experiments is via the Colab notebook, which handles 
 The notebook automatically:
 - Clones the repository from GitHub
 - Mounts Google Drive for dataset access
+- Sets up Google Drive API for uploading results to shared folder
 - Extracts faces from videos (FF++ and Celeb-DF)
 - Creates video-level train/val/test splits (70/15/15)
 - Trains XceptionNet and EfficientNet-B0
 - Runs all 4 experiments (compression, cross-dataset, model comparison, deployment)
-- Saves checkpoints and results to Drive
+- Uploads results to your shared Google Drive folder (`deepfake-project-results/`)
 
-**Estimated time:** 5-10 hours on T4 GPU. Checkpoints save to Drive, so you can resume if Colab disconnects.
+**Estimated time:** 5-10 hours on T4 GPU. Checkpoints save to shared folder, so you can resume if Colab disconnects.
 
 ---
 
