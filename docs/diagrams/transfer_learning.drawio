@@ -1,0 +1,97 @@
+<mxfile host="65bd71144e">
+    <diagram id="transfer-learning" name="Transfer Learning Process">
+        <mxGraphModel dx="1045" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="TRANSFER LEARNING — PRETRAINED TO FINE-TUNED" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="10" width="440" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1E88E5;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="60" width="280" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_title" value="PHASE 1 — PRETRAINED BACKBONE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1E88E5;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="65" width="200" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_conv" value="Conv Layers (ImageNet)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=10;fontStyle=0;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="95" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_fc" value="FC Layer (1000 classes)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=none;fontColor=#1A1A2E;fontSize=10;fontStyle=0;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="135" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_freeze" value="FROZEN — no gradient updates" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="105" y="175" width="170" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1_note" value="Trained on 1.2M ImageNet images" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="95" y="195" width="190" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=8 4;" parent="1" source="p1_conv" target="p2_replace" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1_label" value="Replace&#xa;Head" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=1;fontColor=#E53935;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="80" width="60" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#FB8C00;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="410" y="65" width="280" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_title" value="PHASE 2 — CUSTOM CLASSIFICATION HEAD" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FB8C00;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="65" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_conv" value="Conv Layers (Frozen)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=10;fontStyle=0;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="95" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_replace" value="NEW: Dropout(0.5) + Linear → 2 classes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E53935;strokeColor=none;fontColor=#FFFFFF;fontSize=10;fontStyle=1;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="135" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_note" value="Only new head parameters are trained" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="455" y="175" width="190" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2_params" value="XceptionNet: 4,098 new params&#xa;EfficientNet: 2,562 new params" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="445" y="195" width="210" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;dashed=1;dashPattern=8 4;" parent="1" source="p2_conv" target="p3_freeze" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2_label" value="Fine-tune&#xa;on FF++" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=1;fontColor=#E53935;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="81" width="60" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#43A047;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="770" y="60" width="280" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_title" value="PHASE 3 — FINE-TUNED MODEL" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#43A047;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="65" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_freeze" value="Backbone (Fine-tuned)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=10;fontStyle=0;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="95" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_head" value="Head (Optimized)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=none;fontColor=#1A1A2E;fontSize=10;fontStyle=0;arcSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="135" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_note" value="All layers updated via backpropagation" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="175" width="220" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3_note2" value="Adam optimizer, lr=0.001" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontStyle=2;fontColor=#616161;" parent="1" vertex="1">
+                    <mxGeometry x="840" y="195" width="140" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#8E24AA;strokeWidth=2;arcSize=8;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="313" width="500" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary_title" value="TRANSFER LEARNING BENEFITS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#8E24AA;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="312" width="240" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary_b1" value="✓ Faster convergence (fewer epochs needed)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="335" width="250" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary_b2" value="✓ Better performance with limited data" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="355" width="250" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary_b3" value="✓ Leverages learned visual features from ImageNet" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="375" width="300" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="summary_b4" value="✓ Avoids training from scratch (10× more data needed)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="395" width="300" height="16" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

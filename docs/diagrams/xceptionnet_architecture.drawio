@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-02-25T10:10:00.000Z" agent="drawio" version="21.0.0" type="device">
+  <diagram id="xceptionnet-architecture" name="XceptionNet Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="XCEPTIONNET ARCHITECTURE (PRIMARY MODEL)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
+          <mxGeometry x="340" y="10" width="320" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Input -->
+        <mxCell id="input" value="Input: 299 × 299 × 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#616161;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="55" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="input" target="entry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Entry Block -->
+        <mxCell id="entry" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E88E5;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="400" y="110" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="entry_label" value="ENTRY FLOW" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="450" y="115" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="entry_detail" value="Conv 3×3/2 → BN → ReLU&#xa;Conv 3×3 → BN → ReLU" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#E3F2FD;" vertex="1" parent="1">
+          <mxGeometry x="420" y="135" width="160" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="entry" target="middle">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Middle Block -->
+        <mxCell id="middle" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FB8C00;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="middle_label" value="MIDDLE FLOW (8 × SeparableConv Blocks)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="370" y="185" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="middle_detail" value="Depthwise Separable Convolution&#xa;Spatial + Channel Feature Learning" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFF3E0;" vertex="1" parent="1">
+          <mxGeometry x="385" y="210" width="200" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="middle_detail2" value="Residual Connections · Batch Normalization" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFF3E0;" vertex="1" parent="1">
+          <mxGeometry x="375" y="235" width="220" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="middle" target="exit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Exit Block -->
+        <mxCell id="exit" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#43A047;strokeColor=none;fontColor=#FFFFFF;fontSize=11;fontStyle=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="400" y="275" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="exit_label" value="EXIT FLOW" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="450" y="280" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="exit_detail" value="Conv 1×1 → BN → ReLU&#xa;Global Average Pooling" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#E8F5E9;" vertex="1" parent="1">
+          <mxGeometry x="425" y="300" width="150" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="exit" target="dropout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dropout -->
+        <mxCell id="dropout" value="Dropout (0.5)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E53935;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="350" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="dropout" target="classifier">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Classifier -->
+        <mxCell id="classifier" value="Linear (2048 → 2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8E24AA;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="410" y="415" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow -->
+        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#455A64;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="classifier" target="softmax">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Softmax -->
+        <mxCell id="softmax" value="Softmax → P(real) / P(fake)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A1A2E;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="480" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Parameters Box -->
+        <mxCell id="params" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BDBDBD;strokeWidth=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="params_title" value="MODEL SPECS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
+          <mxGeometry x="125" y="85" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="params_text" value="Parameters: 22.9M&#xa;Input: 299 × 299 × 3&#xa;Depthwise Separable&#xa;Convolution&#xa;Pretrained: ImageNet" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" vertex="1" parent="1">
+          <mxGeometry x="95" y="110" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Output Box -->
+        <mxCell id="out_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BDBDBD;strokeWidth=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="840" y="80" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="out_title" value="KEY COMPONENTS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontStyle=1;fontColor=#1A1A2E;" vertex="1" parent="1">
+          <mxGeometry x="880" y="85" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="out_text" value="Entry → Middle → Exit&#xa;Depthwise Separable&#xa;Residual Connections&#xa;Global Average Pooling" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#455A64;" vertex="1" parent="1">
+          <mxGeometry x="855" y="110" width="150" height="60" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

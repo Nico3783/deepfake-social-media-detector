@@ -7,6 +7,7 @@ A deep learning-based system for detecting deepfake videos distributed through s
 ## Table of Contents
 
 - [Project Overview](#project-overview)
+- [Research Contributions](#research-contributions)
 - [Problem Statement](#problem-statement)
 - [Research Objectives](#research-objectives)
 - [Methodology](#methodology)
@@ -17,6 +18,7 @@ A deep learning-based system for detecting deepfake videos distributed through s
   - [Installation](#installation)
   - [Environment Setup](#environment-setup)
   - [Dataset Preparation](#dataset-preparation)
+- [Running Experiments (Google Colab)](#running-experiments-google-colab)
 - [Usage](#usage)
   - [Training](#training)
   - [Inference](#inference)
@@ -50,6 +52,28 @@ Two convolutional neural network architectures are implemented and compared:
 | **EfficientNet-B0** (Secondary) | ~5.3M | 224×224 | Compound scaling (width, depth, resolution) |
 
 Both models use **transfer learning** from ImageNet pre-trained weights, fine-tuned on deepfake datasets.
+
+---
+
+## Research Contributions
+
+This project makes four concrete contributions to the deepfake detection literature:
+
+### C1: Compression Impact Quantification
+Quantify detection accuracy degradation across three JPEG compression levels (raw/c0, light/c23, heavy/c40) on FaceForensics++. Measures how social media re-encoding degrades forensic detection traces.
+
+### C2: Cross-Dataset Generalization
+Train on FaceForensics++ and evaluate on Celeb-DF (v2) to measure real-world generalization. Models trained on one dataset are tested on the other to quantify domain shift effects.
+
+### C3: Model Architecture Comparison
+Rigorous comparison of XceptionNet (~22.9M params, depthwise separable convolutions) vs EfficientNet-B0 (~5.3M params, compound scaling) on the same datasets with identical training protocols.
+
+### C4: Deployment Readiness Assessment
+Benchmark inference latency, GPU memory footprint, and model size to evaluate suitability for real-time social media content moderation at scale.
+
+> **Note:** This project does not propose a new detection architecture. The contributions are **evaluation-driven** — providing empirical evidence on real-world challenges (compression, generalization, model selection, deployment trade-offs) that practitioners face when deploying deepfake detection systems.
+
+See `thesis/contribution_statement.md` for the formal contribution statement.
 
 ---
 
@@ -254,6 +278,12 @@ deepfake-social-media-detector/
 │   ├── training.yaml             # Training hyperparameters, augmentation
 │   └── inference.yaml            # Inference settings, video processing
 │
+├── scripts/                      # Experiment runner scripts
+│   └── run_experiments.py        # Run all 4 thesis contributions
+│
+├── notebooks/                    # Jupyter/Colab notebooks
+│   └── experiment_pipeline.ipynb # Full Colab notebook (train + evaluate)
+│
 ├── tests/                        # Test suite
 │   ├── conftest.py               # Shared fixtures
 │   ├── test_dataset.py           # Data pipeline tests
@@ -275,7 +305,8 @@ deepfake-social-media-detector/
 │   └── inference/                # Inference output JSONs
 │
 ├── thesis/                       # Thesis document
-│   └── chapters_1_2_3.md         # Chapters 1–3 (proposal, lit review, methodology)
+│   ├── chapters_1_2_3.md         # Chapters 1–3 (proposal, lit review, methodology)
+│   └── contribution_statement.md # Formal contribution statement (4 points)
 │
 ├── .env.example                  # Environment variable template
 ├── .gitignore                    # Git ignore rules
@@ -387,6 +418,43 @@ Default split ratios (configured in `configs/dataset.yaml`):
 - Train: 70%
 - Validation: 15%
 - Test: 15%
+
+---
+
+## Running Experiments (Google Colab)
+
+The recommended way to run experiments is via the Colab notebook, which handles GPU setup, dataset mounting from Google Drive, and full training + evaluation.
+
+### Quick Start
+
+1. **Upload datasets to Google Drive** under `deepfake_datasets/`:
+   ```
+   MyDrive/deepfake_datasets/
+   ├── faceforensic++/FF++/real/
+   ├── faceforensic++/FF++/fake/
+   ├── celeb-df/Celeb-real/
+   ├── celeb-df/Celeb-synthesis/
+   ├── celeb-df/YouTube-real/
+   └── celeb-df/list_of_testing_videos.txt
+   ```
+
+2. **Open in Colab**: File → Open notebook → GitHub → `nico3783/deepfake-social-media-detector` → `notebooks/experiment_pipeline.ipynb`
+
+3. **Enable GPU**: Runtime → Change runtime type → T4 GPU
+
+4. **Run all cells**: Runtime → Run all
+
+The notebook automatically:
+- Clones the repository from GitHub
+- Mounts Google Drive for dataset access
+- Sets up Google Drive API for uploading results to shared folder
+- Extracts faces from videos (FF++ and Celeb-DF)
+- Creates video-level train/val/test splits (70/15/15)
+- Trains XceptionNet and EfficientNet-B0
+- Runs all 4 experiments (compression, cross-dataset, model comparison, deployment)
+- Uploads results to your shared Google Drive folder (`deepfake-project-results/`)
+
+**Estimated time:** 5-10 hours on T4 GPU. Checkpoints save to shared folder, so you can resume if Colab disconnects.
 
 ---
 

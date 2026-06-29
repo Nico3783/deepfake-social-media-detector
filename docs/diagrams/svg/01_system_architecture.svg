@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" width="1440" height="960"
+     font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.07"/></filter>
+  <linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#1565C0"/><stop offset="100%" stop-color="#0D47A1"/>
+  </linearGradient>
+  <marker id="ar" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto" fill="#546E7A">
+    <polygon points="0 0,9 3,0 6"/>
+  </marker>
+  <marker id="arg" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto" fill="#43A047">
+    <polygon points="0 0,9 3,0 6"/>
+  </marker>
+  <marker id="aro" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto" fill="#FB8C00">
+    <polygon points="0 0,9 3,0 6"/>
+  </marker>
+  <marker id="arp" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto" fill="#8E24AA">
+    <polygon points="0 0,9 3,0 6"/>
+  </marker>
+  <marker id="art" markerWidth="9" markerHeight="6" refX="9" refY="3" orient="auto" fill="#E91E63">
+    <polygon points="0 0,9 3,0 6"/>
+  </marker>
+</defs>
+
+<!-- BG -->
+<rect width="1440" height="960" fill="#F7F8FA"/>
+
+<!-- TITLE BAR -->
+<rect width="1440" height="50" fill="url(#hg)"/>
+<text x="720" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#FFF" letter-spacing="1.5">
+  DEEPFAKE SOCIAL MEDIA DETECTOR &#8212; COMPLETE SYSTEM ARCHITECTURE</text>
+
+<!-- ============================================================ -->
+<!-- ROW 1: TRAINING PIPELINE (y 70-400)                          -->
+<!-- ============================================================ -->
+
+<!-- Phase column headers -->
+<text x="145" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0" letter-spacing="0.8">DATA SOURCES</text>
+<text x="375" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32" letter-spacing="0.8">PREPROCESSING</text>
+<text x="605" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100" letter-spacing="0.8">MODEL TRAINING</text>
+<text x="845" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#6A1B9A" letter-spacing="0.8">EVALUATION</text>
+<text x="1085" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C" letter-spacing="0.8">ARTIFACTS</text>
+<text x="1325" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#AD1457" letter-spacing="0.8">DEPLOYMENT</text>
+
+<!-- ── BOX 1: DATA SOURCES ── -->
+<rect x="30" y="90" width="230" height="295" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5" filter="url(#sh)"/>
+<text x="145" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#0D47A1">Google Drive</text>
+<text x="145" y="124" text-anchor="middle" font-size="8" fill="#546E7A">deepfake_datasets/</text>
+
+<!-- FF++ -->
+<rect x="45" y="140" width="200" height="72" rx="6" fill="#FFF" stroke="#1565C0" stroke-width="1"/>
+<rect x="45" y="140" width="5" height="72" rx="2" fill="#1565C0"/>
+<text x="152" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">FaceForensics++</text>
+<text x="152" y="174" text-anchor="middle" font-size="8" fill="#546E7A">1,000 real + 4,000 manipulated</text>
+<text x="152" y="186" text-anchor="middle" font-size="8" fill="#546E7A">4 manipulation methods</text>
+<text x="152" y="198" text-anchor="middle" font-size="8" fill="#546E7A">c40 compression quality</text>
+
+<!-- Celeb-DF -->
+<rect x="45" y="222" width="200" height="72" rx="6" fill="#FFF" stroke="#1565C0" stroke-width="1"/>
+<rect x="45" y="222" width="5" height="72" rx="2" fill="#42A5F5"/>
+<text x="152" y="242" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">Celeb-DF v2</text>
+<text x="152" y="256" text-anchor="middle" font-size="8" fill="#546E7A">590 real + 5,639 synthetic</text>
+<text x="152" y="268" text-anchor="middle" font-size="8" fill="#546E7A">High-fidelity celebrity faces</text>
+<text x="152" y="280" text-anchor="middle" font-size="8" fill="#546E7A">Auto-encoder based</text>
+
+<!-- YouTube -->
+<rect x="45" y="304" width="200" height="56" rx="6" fill="#FFF" stroke="#1565C0" stroke-width="1"/>
+<rect x="45" y="304" width="5" height="56" rx="2" fill="#90CAF9"/>
+<text x="152" y="324" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">YouTube-Real</text>
+<text x="152" y="338" text-anchor="middle" font-size="8" fill="#546E7A">369 genuine videos</text>
+<text x="152" y="350" text-anchor="middle" font-size="8" fill="#546E7A">Cross-dataset validation</text>
+
+<!-- Arrow -->
+<line x1="260" y1="237" x2="290" y2="237" stroke="#546E7A" stroke-width="2" marker-end="url(#ar)"/>
+
+<!-- ── BOX 2: PREPROCESSING ── -->
+<rect x="295" y="90" width="190" height="295" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" filter="url(#sh)"/>
+<text x="390" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#1B5E20">Preprocessing</text>
+
+<rect x="310" y="125" width="160" height="28" rx="5" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<circle cx="324" cy="139" r="8" fill="#43A047"/><text x="324" y="143" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF">1</text>
+<text x="400" y="143" text-anchor="middle" font-size="9" fill="#1A1A2E">Frame Extraction</text>
+
+<rect x="310" y="160" width="160" height="28" rx="5" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<circle cx="324" cy="174" r="8" fill="#43A047"/><text x="324" y="178" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF">2</text>
+<text x="400" y="178" text-anchor="middle" font-size="9" fill="#1A1A2E">Face Detection (MTCNN)</text>
+
+<rect x="310" y="195" width="160" height="28" rx="5" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<circle cx="324" cy="209" r="8" fill="#43A047"/><text x="324" y="213" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF">3</text>
+<text x="400" y="213" text-anchor="middle" font-size="9" fill="#1A1A2E">Face Crop &amp; Resize</text>
+
+<rect x="310" y="230" width="160" height="28" rx="5" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<circle cx="324" cy="244" r="8" fill="#43A047"/><text x="324" y="248" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF">4</text>
+<text x="400" y="248" text-anchor="middle" font-size="9" fill="#1A1A2E">Normalize [0, 1]</text>
+
+<rect x="310" y="265" width="160" height="28" rx="5" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<circle cx="324" cy="279" r="8" fill="#43A047"/><text x="324" y="283" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF">5</text>
+<text x="400" y="283" text-anchor="middle" font-size="9" fill="#1A1A2E">Tensor [B,C,H,W]</text>
+
+<!-- Split info -->
+<rect x="310" y="306" width="160" height="22" rx="4" fill="#43A047"/>
+<text x="390" y="321" text-anchor="middle" font-size="8" font-weight="600" fill="#FFF">Train 70% | Val 15% | Test 15%</text>
+
+<!-- Video-level split note -->
+<rect x="310" y="335" width="160" height="36" rx="4" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<text x="390" y="350" text-anchor="middle" font-size="8" font-weight="600" fill="#2E7D32">Video-Level Split</text>
+<text x="390" y="363" text-anchor="middle" font-size="7" fill="#546E7A">Prevents data leakage</text>
+
+<!-- Arrow -->
+<line x1="485" y1="237" x2="515" y2="237" stroke="#546E7A" stroke-width="2" marker-end="url(#ar)"/>
+
+<!-- ── BOX 3: MODEL TRAINING ── -->
+<rect x="520" y="90" width="245" height="295" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5" filter="url(#sh)"/>
+<text x="642" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#BF360C">Model Training</text>
+
+<!-- Transfer learning banner -->
+<rect x="535" y="125" width="215" height="18" rx="4" fill="#E65100"/>
+<text x="642" y="138" text-anchor="middle" font-size="8" font-weight="700" fill="#FFF" letter-spacing="0.5">TRANSFER LEARNING &#8212; ImageNet Pretrained</text>
+
+<!-- XceptionNet -->
+<rect x="535" y="150" width="215" height="58" rx="6" fill="#FFF" stroke="#E65100" stroke-width="1"/>
+<rect x="535" y="150" width="5" height="58" rx="2" fill="#E53935"/>
+<text x="642" y="168" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">XceptionNet</text>
+<text x="642" y="181" text-anchor="middle" font-size="8" fill="#546E7A">22.9M params &#8226; Input: 299&#215;299</text>
+<text x="642" y="193" text-anchor="middle" font-size="8" fill="#546E7A">Depthwise Separable Convolutions</text>
+
+<!-- EfficientNet -->
+<rect x="535" y="216" width="215" height="58" rx="6" fill="#FFF" stroke="#E65100" stroke-width="1"/>
+<rect x="535" y="216" width="5" height="58" rx="2" fill="#FB8C00"/>
+<text x="642" y="234" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">EfficientNet-B0</text>
+<text x="642" y="247" text-anchor="middle" font-size="8" fill="#546E7A">5.3M params &#8226; Input: 224&#215;224</text>
+<text x="642" y="259" text-anchor="middle" font-size="8" fill="#546E7A">MBConv Blocks + Squeeze-Excite</text>
+
+<!-- Training config -->
+<rect x="535" y="282" width="215" height="72" rx="6" fill="#FFF" stroke="#E65100" stroke-width="1"/>
+<text x="642" y="297" text-anchor="middle" font-size="9" font-weight="600" fill="#BF360C">Training Configuration</text>
+<text x="550" y="312" font-size="8" fill="#546E7A">Optimizer: Adam (lr=0.001)</text>
+<text x="550" y="324" font-size="8" fill="#546E7A">Batch: 32 &#8226; Epochs: 50 max</text>
+<text x="550" y="336" font-size="8" fill="#546E7A">Early Stopping: patience=10</text>
+<text x="550" y="348" font-size="8" fill="#546E7A">Loss: BCE / Focal / Label Smooth</text>
+
+<!-- Callbacks -->
+<rect x="535" y="362" width="215" height="18" rx="4" fill="#E65100"/>
+<text x="642" y="375" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Callbacks: Checkpoint &#8226; EarlyStop &#8226; LRScheduler</text>
+
+<!-- Arrow -->
+<line x1="765" y1="237" x2="795" y2="237" stroke="#546E7A" stroke-width="2" marker-end="url(#ar)"/>
+
+<!-- ── BOX 4: EVALUATION ── -->
+<rect x="800" y="90" width="230" height="295" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5" filter="url(#sh)"/>
+<text x="915" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#4A148C">Evaluation</text>
+
+<!-- C1 -->
+<rect x="815" y="128" width="200" height="38" rx="5" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
+<rect x="815" y="128" width="5" height="38" rx="2" fill="#43A047"/>
+<text x="920" y="144" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">C1: Model Comparison</text>
+<text x="920" y="158" text-anchor="middle" font-size="8" fill="#546E7A">Accuracy, Precision, Recall, F1</text>
+
+<!-- C2 -->
+<rect x="815" y="174" width="200" height="38" rx="5" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
+<rect x="815" y="174" width="5" height="38" rx="2" fill="#FB8C00"/>
+<text x="920" y="190" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">C2: Loss Function Study</text>
+<text x="920" y="204" text-anchor="middle" font-size="8" fill="#546E7A">BCE vs Focal vs Label Smooth</text>
+
+<!-- C3 -->
+<rect x="815" y="220" width="200" height="38" rx="5" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
+<rect x="815" y="220" width="5" height="38" rx="2" fill="#1565C0"/>
+<text x="920" y="236" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">C3: Cross-Dataset Generalisation</text>
+<text x="920" y="250" text-anchor="middle" font-size="8" fill="#546E7A">FF++ &#8594; Celeb-DF &#8594; YouTube</text>
+
+<!-- C4 -->
+<rect x="815" y="266" width="200" height="38" rx="5" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
+<rect x="815" y="266" width="5" height="38" rx="2" fill="#00897B"/>
+<text x="920" y="282" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">C4: Model Compression</text>
+<text x="920" y="296" text-anchor="middle" font-size="8" fill="#546E7A">ONNX / TensorRT FP16 / INT8</text>
+
+<!-- Chapter 4 output -->
+<rect x="815" y="315" width="200" height="38" rx="5" fill="#6A1B9A"/>
+<text x="915" y="331" text-anchor="middle" font-size="9" font-weight="600" fill="#FFF">Chapter 4: Results</text>
+<text x="915" y="345" text-anchor="middle" font-size="8" fill="#E1BEE7">Tables, Charts, Analysis</text>
+
+<!-- Experiment tracking -->
+<rect x="815" y="360" width="200" height="20" rx="4" fill="#4A148C"/>
+<text x="915" y="374" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">MLflow Tracking &#8226; TensorBoard Logs</text>
+
+<!-- Arrow -->
+<line x1="1030" y1="237" x2="1060" y2="237" stroke="#546E7A" stroke-width="2" marker-end="url(#ar)"/>
+
+<!-- ── BOX 5: ARTIFACTS ── -->
+<rect x="1065" y="90" width="150" height="295" rx="8" fill="#E0F7FA" stroke="#00695C" stroke-width="1.5" filter="url(#sh)"/>
+<text x="1140" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#004D40">Saved Models</text>
+
+<rect x="1078" y="128" width="124" height="42" rx="5" fill="#FFF" stroke="#00897B" stroke-width="1"/>
+<text x="1140" y="146" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">XceptionNet.pth</text>
+<text x="1140" y="160" text-anchor="middle" font-size="7" fill="#546E7A">Best accuracy checkpoint</text>
+
+<rect x="1078" y="178" width="124" height="42" rx="5" fill="#FFF" stroke="#00897B" stroke-width="1"/>
+<text x="1140" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">EfficientNet.pth</text>
+<text x="1140" y="210" text-anchor="middle" font-size="7" fill="#546E7A">Best accuracy checkpoint</text>
+
+<rect x="1078" y="228" width="124" height="42" rx="5" fill="#FFF" stroke="#00897B" stroke-width="1"/>
+<text x="1140" y="246" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">*.onnx</text>
+<text x="1140" y="260" text-anchor="middle" font-size="7" fill="#546E7A">ONNX compressed export</text>
+
+<rect x="1078" y="278" width="124" height="42" rx="5" fill="#FFF" stroke="#00897B" stroke-width="1"/>
+<text x="1140" y="296" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">*.engine</text>
+<text x="1140" y="310" text-anchor="middle" font-size="7" fill="#546E7A">TensorRT FP16 fastest</text>
+
+<!-- Checkpoint resume -->
+<rect x="1078" y="330" width="124" height="36" rx="5" fill="#FFF" stroke="#00897B" stroke-width="1"/>
+<text x="1140" y="346" text-anchor="middle" font-size="8" font-weight="600" fill="#00695C">Drive Checkpoints</text>
+<text x="1140" y="358" text-anchor="middle" font-size="7" fill="#546E7A">Resume training safely</text>
+
+<!-- Arrow -->
+<line x1="1215" y1="237" x2="1245" y2="237" stroke="#546E7A" stroke-width="2" marker-end="url(#ar)"/>
+
+<!-- ── BOX 6: DEPLOYMENT ── -->
+<rect x="1250" y="90" width="165" height="295" rx="8" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.5" filter="url(#sh)"/>
+<text x="1332" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#880E4F">Deployment</text>
+
+<!-- FastAPI -->
+<rect x="1263" y="128" width="138" height="50" rx="5" fill="#FFF" stroke="#E91E63" stroke-width="1"/>
+<text x="1332" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">FastAPI Server</text>
+<text x="1332" y="162" text-anchor="middle" font-size="8" fill="#546E7A">REST API /predict</text>
+
+<!-- Streamlit -->
+<rect x="1263" y="186" width="138" height="50" rx="5" fill="#FFF" stroke="#E91E63" stroke-width="1"/>
+<text x="1332" y="206" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">Streamlit App</text>
+<text x="1332" y="220" text-anchor="middle" font-size="8" fill="#546E7A">Interactive Dashboard</text>
+
+<!-- Docker -->
+<rect x="1263" y="244" width="138" height="50" rx="5" fill="#FFF" stroke="#E91E63" stroke-width="1"/>
+<text x="1332" y="264" text-anchor="middle" font-size="10" font-weight="700" fill="#1A1A2E">Docker Container</text>
+<text x="1332" y="278" text-anchor="middle" font-size="8" fill="#546E7A">Reproducible deploy</text>
+
+<!-- GPU/CPU -->
+<rect x="1263" y="302" width="138" height="36" rx="5" fill="#FFF" stroke="#E91E63" stroke-width="1"/>
+<text x="1332" y="318" text-anchor="middle" font-size="9" font-weight="600" fill="#1A1A2E">GPU / CPU Runtime</text>
+<text x="1332" y="330" text-anchor="middle" font-size="7" fill="#546E7A">CUDA 11.8 &#8226; cuDNN</text>
+
+<!-- Production badge -->
+<rect x="1263" y="348" width="138" height="32" rx="5" fill="#AD1457"/>
+<text x="1332" y="362" text-anchor="middle" font-size="8" font-weight="600" fill="#FFF">Production Ready</text>
+<text x="1332" y="374" text-anchor="middle" font-size="7" fill="#F8BBD0">Health check + Logging</text>
+
+
+<!-- ============================================================ -->
+<!-- ROW 2: LIVE INFERENCE PIPELINE (y 420-530)                   -->
+<!-- ============================================================ -->
+<rect x="30" y="420" width="1385" height="110" rx="8" fill="#FFF" stroke="#E0E0E0" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="420" width="1385" height="26" rx="8" fill="#37474F"/>
+<text x="722" y="438" text-anchor="middle" font-size="11" font-weight="700" fill="#FFF" letter-spacing="1">
+  LIVE INFERENCE PIPELINE &#8212; REAL-TIME VIDEO DEEPFAKE CLASSIFICATION</text>
+
+<!-- Step boxes -->
+<rect x="50" y="460" width="110" height="55" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+<polygon points="97,475 97,490 113,482.5" fill="#1565C0"/><rect x="95" y="474" width="20" height="18" rx="2" fill="none" stroke="#1565C0" stroke-width="1.2"/>
+<text x="105" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Video Upload</text>
+<text x="105" y="509" text-anchor="middle" font-size="7" fill="#546E7A">MP4, AVI, MOV</text>
+
+<line x1="160" y1="487" x2="178" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<rect x="183" y="460" width="110" height="55" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+<rect x="228" y="474" width="20" height="18" rx="2" fill="none" stroke="#2E7D32" stroke-width="1.2"/><line x1="228" y1="480" x2="248" y2="480" stroke="#2E7D32" stroke-width="0.8"/><line x1="228" y1="486" x2="248" y2="486" stroke="#2E7D32" stroke-width="0.8"/><line x1="235" y1="474" x2="235" y2="492" stroke="#2E7D32" stroke-width="0.8"/><line x1="241" y1="474" x2="241" y2="492" stroke="#2E7D32" stroke-width="0.8"/>
+<text x="238" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Frame Extract</text>
+<text x="238" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Every 2nd, max 10</text>
+
+<line x1="293" y1="487" x2="311" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<rect x="316" y="460" width="110" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.2"/>
+<circle cx="371" cy="481" r="7" fill="none" stroke="#E65100" stroke-width="1.5"/><line x1="376" y1="487" x2="382" y2="493" stroke="#E65100" stroke-width="1.5"/>
+<text x="371" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Face Detect</text>
+<text x="371" y="509" text-anchor="middle" font-size="7" fill="#546E7A">MTCNN + RetinaFace</text>
+
+<line x1="426" y1="487" x2="444" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<rect x="449" y="460" width="110" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.2"/>
+<text x="504" y="482" text-anchor="middle" font-size="16">&#9881;</text>
+<text x="504" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Preprocess</text>
+<text x="504" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Crop+Resize+Norm</text>
+
+<line x1="559" y1="487" x2="577" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Model Selector -->
+<rect x="582" y="452" width="130" height="72" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.2"/>
+<text x="647" y="470" text-anchor="middle" font-size="8" font-weight="700" fill="#BF360C">Model Selector</text>
+<rect x="597" y="477" width="100" height="18" rx="3" fill="#E53935"/>
+<text x="647" y="490" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">XceptionNet</text>
+<rect x="597" y="499" width="100" height="18" rx="3" fill="#FB8C00"/>
+<text x="647" y="512" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">EfficientNet-B0</text>
+
+<line x1="712" y1="487" x2="730" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Inference Engine -->
+<rect x="735" y="460" width="110" height="55" rx="6" fill="#E0F7FA" stroke="#00695C" stroke-width="1.2"/>
+<rect x="782" y="474" width="16" height="16" rx="2" fill="none" stroke="#00695C" stroke-width="1.2"/><line x1="786" y1="478" x2="794" y2="478" stroke="#00695C" stroke-width="0.8"/><line x1="786" y1="482" x2="794" y2="482" stroke="#00695C" stroke-width="0.8"/><line x1="786" y1="486" x2="794" y2="486" stroke="#00695C" stroke-width="0.8"/><line x1="790" y1="474" x2="790" y2="490" stroke="#00695C" stroke-width="0.8"/>
+<text x="790" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">GPU Inference</text>
+<text x="790" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Forward pass</text>
+
+<line x1="845" y1="487" x2="863" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Aggregate -->
+<rect x="868" y="460" width="110" height="55" rx="6" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.2"/>
+<rect x="913" y="486" width="5" height="6" fill="#AD1457"/><rect x="920" y="480" width="5" height="12" fill="#AD1457"/><rect x="927" y="476" width="5" height="16" fill="#AD1457"/><line x1="911" y1="492" x2="934" y2="492" stroke="#AD1457" stroke-width="0.8"/>
+<text x="923" y="498" text-anchor="middle" font-size="8" font-weight="600" fill="#1A1A2E">Aggregate</text>
+<text x="923" y="509" text-anchor="middle" font-size="7" fill="#546E7A">Mean/Vote/Weight</text>
+
+<line x1="978" y1="487" x2="996" y2="487" stroke="#546E7A" stroke-width="1.5" marker-end="url(#ar)"/>
+
+<!-- Prediction Result -->
+<rect x="1001" y="455" width="130" height="65" rx="6" fill="#1A1A2E"/>
+<text x="1066" y="478" text-anchor="middle" font-size="10" font-weight="700" fill="#4CAF50">REAL / FAKE</text>
+<text x="1066" y="494" text-anchor="middle" font-size="9" fill="#B0BEC5">Confidence: 87.3%</text>
+<!-- Confidence bar -->
+<rect x="1021" y="502" width="90" height="5" rx="2.5" fill="#37474F"/>
+<rect x="1021" y="502" width="68" height="5" rx="2.5" fill="#4CAF50"/>
+<text x="1066" y="516" text-anchor="middle" font-size="7" fill="#78909C">Video-level prediction</text>
+
+<!-- Feedback arrow back to dashboard -->
+<path d="M 1131 487 L 1160 487 L 1160 560 L 1332 560 L 1332 540" stroke="#E91E63" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#art)"/>
+<text x="1250" y="555" text-anchor="middle" font-size="7" font-weight="600" fill="#E91E63">Results to Dashboard</text>
+
+
+<!-- ============================================================ -->
+<!-- ROW 3: STREAMLIT DASHBOARD (y 560-860)                       -->
+<!-- ============================================================ -->
+<rect x="30" y="575" width="1385" height="280" rx="8" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="575" width="1385" height="28" rx="8" fill="#AD1457"/>
+<text x="722" y="594" text-anchor="middle" font-size="11" font-weight="700" fill="#FFF" letter-spacing="1">
+  STREAMLIT DASHBOARD &#8212; INTERACTIVE USER INTERFACE</text>
+
+<!-- Browser window mockup -->
+<rect x="55" y="618" width="520" height="222" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1"/>
+<!-- Title bar -->
+<rect x="55" y="618" width="520" height="22" rx="6" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1"/>
+<circle cx="72" cy="629" r="4" fill="#E53935"/>
+<circle cx="86" cy="629" r="4" fill="#FB8C00"/>
+<circle cx="100" cy="629" r="4" fill="#43A047"/>
+<text x="315" y="633" text-anchor="middle" font-size="8" fill="#757575">streamlit run app.py</text>
+
+<!-- Sidebar -->
+<rect x="55" y="640" width="120" height="200" rx="0" fill="#F3E5F5" stroke="#E0E0E0" stroke-width="1"/>
+<text x="115" y="658" text-anchor="middle" font-size="8" font-weight="700" fill="#6A1B9A">Settings</text>
+<text x="70" y="674" font-size="7" fill="#546E7A">Model:</text>
+<rect x="68" y="678" width="95" height="16" rx="3" fill="#FFF" stroke="#BDBDBD"/>
+<text x="115" y="690" text-anchor="middle" font-size="7" fill="#1A1A2E">XceptionNet</text>
+<text x="70" y="710" font-size="7" fill="#546E7A">Threshold:</text>
+<rect x="68" y="714" width="95" height="16" rx="3" fill="#FFF" stroke="#BDBDBD"/>
+<text x="115" y="726" text-anchor="middle" font-size="7" fill="#1A1A2E">0.50</text>
+<text x="70" y="748" font-size="7" fill="#546E7A">Aggregation:</text>
+<rect x="68" y="752" width="95" height="16" rx="3" fill="#FFF" stroke="#BDBDBD"/>
+<text x="115" y="764" text-anchor="middle" font-size="7" fill="#1A1A2E">Mean Prob.</text>
+<text x="70" y="792" font-size="7" fill="#546E7A">Device:</text>
+<rect x="68" y="796" width="95" height="16" rx="3" fill="#43A047"/>
+<text x="115" y="808" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">GPU (CUDA)</text>
+
+<!-- Main area -->
+<rect x="175" y="640" width="400" height="200" rx="0" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+<text x="375" y="658" text-anchor="middle" font-size="9" font-weight="700" fill="#1A1A2E">Upload a Video for Analysis</text>
+
+<!-- Upload zone -->
+<rect x="200" y="668" width="180" height="50" rx="5" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="290" y1="696" x2="290" y2="682" stroke="#757575" stroke-width="1.5"/><polyline points="282,690 290,682 298,690" fill="none" stroke="#757575" stroke-width="1.5"/><line x1="274" y1="698" x2="306" y2="698" stroke="#757575" stroke-width="1.2"/>
+<text x="290" y="704" text-anchor="middle" font-size="7" fill="#757575">Drag &amp; drop or click to upload</text>
+
+<!-- Analyse button -->
+<rect x="400" y="678" width="140" height="30" rx="5" fill="#1E88E5"/>
+<text x="470" y="697" text-anchor="middle" font-size="9" font-weight="700" fill="#FFF">Analyse Video</text>
+
+<!-- Result area -->
+<rect x="200" y="728" width="370" height="100" rx="5" fill="#F5F5F5" stroke="#E0E0E0"/>
+<text x="215" y="745" font-size="8" font-weight="600" fill="#1A1A2E">Result:</text>
+<rect x="210" y="752" width="80" height="22" rx="4" fill="#E53935"/>
+<text x="250" y="767" text-anchor="middle" font-size="9" font-weight="700" fill="#FFF">FAKE</text>
+<text x="305" y="767" font-size="8" fill="#546E7A">Confidence: 94.2%</text>
+<!-- Mini chart placeholder -->
+<rect x="210" y="782" width="340" height="36" rx="3" fill="#FFF" stroke="#E0E0E0"/>
+<text x="380" y="798" text-anchor="middle" font-size="7" fill="#757575">Frame-by-frame prediction chart (plotly)</text>
+<text x="380" y="812" text-anchor="middle" font-size="7" fill="#757575">Real-time probability curve</text>
+
+<!-- Right panel: Model Comparison -->
+<rect x="595" y="618" width="380" height="222" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1"/>
+<rect x="595" y="618" width="380" height="22" rx="6" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1"/>
+<text x="785" y="633" text-anchor="middle" font-size="8" fill="#757575">Model Comparison Dashboard</text>
+
+<!-- Table -->
+<rect x="610" y="648" width="350" height="14" rx="2" fill="#37474F"/>
+<text x="655" y="658" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Model</text>
+<text x="740" y="658" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Accuracy</text>
+<text x="810" y="658" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">F1</text>
+<text x="875" y="658" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Latency</text>
+<text x="930" y="658" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Size</text>
+
+<rect x="610" y="664" width="350" height="16" rx="0" fill="#E8F5E9"/>
+<text x="655" y="675" text-anchor="middle" font-size="7" fill="#1A1A2E">XceptionNet</text>
+<text x="740" y="675" text-anchor="middle" font-size="7" font-weight="600" fill="#2E7D32">96.8%</text>
+<text x="810" y="675" text-anchor="middle" font-size="7" fill="#1A1A2E">0.967</text>
+<text x="875" y="675" text-anchor="middle" font-size="7" fill="#1A1A2E">45ms</text>
+<text x="930" y="675" text-anchor="middle" font-size="7" fill="#1A1A2E">88MB</text>
+
+<rect x="610" y="682" width="350" height="16" rx="0" fill="#FFF3E0"/>
+<text x="655" y="693" text-anchor="middle" font-size="7" fill="#1A1A2E">EfficientNet</text>
+<text x="740" y="693" text-anchor="middle" font-size="7" font-weight="600" fill="#E65100">94.2%</text>
+<text x="810" y="693" text-anchor="middle" font-size="7" fill="#1A1A2E">0.941</text>
+<text x="875" y="693" text-anchor="middle" font-size="7" fill="#1A1A2E">28ms</text>
+<text x="930" y="693" text-anchor="middle" font-size="7" fill="#1A1A2E">22MB</text>
+
+<!-- Chart placeholders -->
+<rect x="610" y="710" width="170" height="60" rx="4" fill="#F5F5F5" stroke="#E0E0E0"/>
+<text x="695" y="730" text-anchor="middle" font-size="7" fill="#757575">Accuracy Comparison</text>
+<text x="695" y="744" text-anchor="middle" font-size="7" fill="#757575">(matplotlib bar chart)</text>
+<text x="695" y="758" text-anchor="middle" font-size="7" fill="#757575">ROC Curve</text>
+
+<rect x="790" y="710" width="170" height="60" rx="4" fill="#F5F5F5" stroke="#E0E0E0"/>
+<text x="875" y="730" text-anchor="middle" font-size="7" fill="#757575">Training Curves</text>
+<text x="875" y="744" text-anchor="middle" font-size="7" fill="#757575">(loss &amp; accuracy per epoch)</text>
+<text x="875" y="758" text-anchor="middle" font-size="7" fill="#757575">Confusion Matrix</text>
+
+<!-- Compression comparison -->
+<rect x="610" y="778" width="350" height="14" rx="2" fill="#00695C"/>
+<text x="785" y="788" text-anchor="middle" font-size="7" font-weight="600" fill="#FFF">Compression Comparison</text>
+<rect x="610" y="794" width="350" height="14" rx="0" fill="#E0F7FA"/>
+<text x="655" y="804" text-anchor="middle" font-size="7" fill="#1A1A2E">FP32</text>
+<text x="740" y="804" text-anchor="middle" font-size="7" fill="#1A1A2E">88 MB</text>
+<text x="810" y="804" text-anchor="middle" font-size="7" fill="#1A1A2E">45ms</text>
+<text x="875" y="804" text-anchor="middle" font-size="7" font-weight="600" fill="#1A1A2E">96.8%</text>
+<rect x="610" y="810" width="350" height="14" rx="0" fill="#FFF"/>
+<text x="655" y="820" text-anchor="middle" font-size="7" fill="#1A1A2E">ONNX</text>
+<text x="740" y="820" text-anchor="middle" font-size="7" fill="#1A1A2E">52 MB</text>
+<text x="810" y="820" text-anchor="middle" font-size="7" fill="#1A1A2E">32ms</text>
+<text x="875" y="820" text-anchor="middle" font-size="7" font-weight="600" fill="#E65100">96.5%</text>
+
+<!-- Right-most: Technology Stack -->
+<rect x="995" y="618" width="395" height="222" rx="6" fill="#FFF" stroke="#BDBDBD" stroke-width="1"/>
+<rect x="995" y="618" width="395" height="22" rx="6" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="1"/>
+<text x="1192" y="633" text-anchor="middle" font-size="8" fill="#757575">Technology Stack</text>
+
+<!-- Tech items -->
+<rect x="1010" y="648" width="175" height="38" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="0.8"/>
+<text x="1097" y="664" text-anchor="middle" font-size="9" font-weight="600" fill="#0D47A1">PyTorch 2.x</text>
+<text x="1097" y="678" text-anchor="middle" font-size="7" fill="#546E7A">Deep Learning Framework</text>
+
+<rect x="1200" y="648" width="175" height="38" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+<text x="1287" y="664" text-anchor="middle" font-size="9" font-weight="600" fill="#1B5E20">torchvision</text>
+<text x="1287" y="678" text-anchor="middle" font-size="7" fill="#546E7A">Pretrained Models</text>
+
+<rect x="1010" y="694" width="175" height="38" rx="4" fill="#FFF3E0" stroke="#E65100" stroke-width="0.8"/>
+<text x="1097" y="710" text-anchor="middle" font-size="9" font-weight="600" fill="#BF360C">MTCNN / RetinaFace</text>
+<text x="1097" y="724" text-anchor="middle" font-size="7" fill="#546E7A">Face Detection</text>
+
+<rect x="1200" y="694" width="175" height="38" rx="4" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="0.8"/>
+<text x="1287" y="710" text-anchor="middle" font-size="9" font-weight="600" fill="#4A148C">OpenCV + Pillow</text>
+<text x="1287" y="724" text-anchor="middle" font-size="7" fill="#546E7A">Video &amp; Image I/O</text>
+
+<rect x="1010" y="740" width="175" height="38" rx="4" fill="#E0F7FA" stroke="#00695C" stroke-width="0.8"/>
+<text x="1097" y="756" text-anchor="middle" font-size="9" font-weight="600" fill="#004D40">FastAPI + Uvicorn</text>
+<text x="1097" y="770" text-anchor="middle" font-size="7" fill="#546E7A">REST API Server</text>
+
+<rect x="1200" y="740" width="175" height="38" rx="4" fill="#FCE4EC" stroke="#AD1457" stroke-width="0.8"/>
+<text x="1287" y="756" text-anchor="middle" font-size="9" font-weight="600" fill="#880E4F">Streamlit</text>
+<text x="1287" y="770" text-anchor="middle" font-size="7" fill="#546E7A">Interactive Dashboard</text>
+
+<rect x="1010" y="786" width="175" height="38" rx="4" fill="#F5F5F5" stroke="#616161" stroke-width="0.8"/>
+<text x="1097" y="802" text-anchor="middle" font-size="9" font-weight="600" fill="#212121">ONNX Runtime</text>
+<text x="1097" y="816" text-anchor="middle" font-size="7" fill="#546E7A">Model Optimization</text>
+
+<rect x="1200" y="786" width="175" height="38" rx="4" fill="#F5F5F5" stroke="#616161" stroke-width="0.8"/>
+<text x="1287" y="802" text-anchor="middle" font-size="9" font-weight="600" fill="#212121">TensorRT</text>
+<text x="1287" y="816" text-anchor="middle" font-size="7" fill="#546E7A">GPU Acceleration</text>
+
+<!-- Google Colab note -->
+<rect x="1010" y="830" width="365" height="10" rx="3" fill="#FB8C00"/>
+<text x="1192" y="838" text-anchor="middle" font-size="6" font-weight="600" fill="#FFF">Training: Google Colab T4 GPU | Inference: Local GPU/CPU</text>
+
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                        -->
+<!-- ============================================================ -->
+<rect y="870" width="1440" height="90" fill="#F7F8FA" stroke="#E0E0E0" stroke-width="1"/>
+
+<!-- Key Stats -->
+<rect x="55" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#1565C0" stroke-width="1"/>
+<text x="155" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#0D47A1">PROJECT SUMMARY</text>
+<text x="70" y="914" font-size="7" fill="#546E7A">Models: XceptionNet + EfficientNet-B0</text>
+<text x="70" y="926" font-size="7" fill="#546E7A">Contributions: C1-C4 (4 research goals)</text>
+<text x="70" y="938" font-size="7" fill="#546E7A">Datasets: FaceForensics++ &amp; Celeb-DF v2</text>
+
+<rect x="275" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#43A047" stroke-width="1"/>
+<text x="375" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#1B5E20">TRAINING PIPELINE</text>
+<text x="290" y="914" font-size="7" fill="#546E7A">Transfer learning (ImageNet pretrained)</text>
+<text x="290" y="926" font-size="7" fill="#546E7A">3 loss functions compared</text>
+<text x="290" y="938" font-size="7" fill="#546E7A">Early stopping + model checkpointing</text>
+
+<rect x="495" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#E65100" stroke-width="1"/>
+<text x="595" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#BF360C">INFERENCE PIPELINE</text>
+<text x="510" y="914" font-size="7" fill="#546E7A">Video &#8594; Frames &#8594; Faces &#8594; Model &#8594; Result</text>
+<text x="510" y="926" font-size="7" fill="#546E7A">Frame-level &#8594; Video-level aggregation</text>
+<text x="510" y="938" font-size="7" fill="#546E7A">Real-time deepfake detection</text>
+
+<rect x="715" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#6A1B9A" stroke-width="1"/>
+<text x="815" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#4A148C">EVALUATION</text>
+<text x="730" y="914" font-size="7" fill="#546E7A">C1: Model comparison (Acc/F1/Recall)</text>
+<text x="730" y="926" font-size="7" fill="#546E7A">C2: Loss function ablation study</text>
+<text x="730" y="938" font-size="7" fill="#546E7A">C3: Cross-dataset generalisation</text>
+
+<rect x="935" y="882" width="200" height="65" rx="6" fill="#FFF" stroke="#00695C" stroke-width="1"/>
+<text x="1035" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#004D40">COMPRESSION</text>
+<text x="950" y="914" font-size="7" fill="#546E7A">C4: ONNX + TensorRT FP16 + INT8</text>
+<text x="950" y="926" font-size="7" fill="#546E7A">Size reduction &amp; latency improvement</text>
+<text x="950" y="938" font-size="7" fill="#546E7A">Accuracy retention analysis</text>
+
+<rect x="1155" y="882" width="230" height="65" rx="6" fill="#FFF" stroke="#AD1457" stroke-width="1"/>
+<text x="1270" y="898" text-anchor="middle" font-size="8" font-weight="700" fill="#880E4F">DEPLOYMENT</text>
+<text x="1170" y="914" font-size="7" fill="#546E7A">FastAPI REST API + Streamlit Dashboard</text>
+<text x="1170" y="926" font-size="7" fill="#546E7A">Docker containerised</text>
+<text x="1170" y="938" font-size="7" fill="#546E7A">GPU/CPU runtime support</text>
+
+<!-- Author line -->
+<text x="720" y="960" text-anchor="middle" font-size="7" fill="#9E9E9E">
+  Detection of Social Media Deepfake Contents Using Deep Learning &#8226; FUTA Cyber Security &#8226; 2026</text>
+
+</svg>
