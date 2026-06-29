@@ -74,3 +74,15 @@ coverage.xml
 
 # mypy
 .mypy_cache/
+
+# Project planning documents (not for version control)
+CLAUDE.md
+PROJECT_CONTEXT.md
+PROJECT_DOCUMENT.md
+REQUIREMENTS.md
+ARCHITECTURE.md
+MODEL_SELECTION.md
+DATASET_STRATEGY.md
+RESEARCH_GUIDELINES.md
+IMPLEMENTATION_ROADMAP.md
+TODO.md
