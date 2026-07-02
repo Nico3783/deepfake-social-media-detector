@@ -8,6 +8,8 @@ This chapter presents the experimental results obtained from training and evalua
 
 ### Hardware Configuration
 
+**Table 4.1: Hardware Configuration**
+
 | Component | Specification |
 |-----------|---------------|
 | CPU | Intel Core i7 / AMD Ryzen 7 |
@@ -16,6 +18,8 @@ This chapter presents the experimental results obtained from training and evalua
 | Storage | 512 GB SSD |
 
 ### Software Environment
+
+**Table 4.2: Software Environment**
 
 | Component | Version |
 |-----------|---------|
@@ -26,6 +30,8 @@ This chapter presents the experimental results obtained from training and evalua
 
 ### Dataset Splits
 
+**Table 4.3: Dataset Splits**
+
 | Split | Real Videos | Fake Videos | Total Frames |
 |-------|-------------|-------------|--------------|
 | Training | 720 | 3,200 | ~180,000 |
@@ -33,6 +39,8 @@ This chapter presents the experimental results obtained from training and evalua
 | Testing | 200 | 800 | ~50,000 |
 
 ### Training Hyperparameters
+
+**Table 4.4: Training Hyperparameters**
 
 | Parameter | XceptionNet | EfficientNet-B0 |
 |-----------|-------------|-----------------|
@@ -50,7 +58,7 @@ This chapter presents the experimental results obtained from training and evalua
 
 The XceptionNet model was fine-tuned from ImageNet pre-trained weights. Training converged within 35 epochs with early stopping triggered at epoch 45.
 
-**Training History:**
+**Table 4.5: XceptionNet Training History**
 
 | Epoch | Train Loss | Train Acc | Val Loss | Val Acc | LR |
 |-------|------------|-----------|----------|---------|-----|
@@ -71,7 +79,7 @@ The XceptionNet model was fine-tuned from ImageNet pre-trained weights. Training
 
 The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Training converged within 40 epochs.
 
-**Training History:**
+**Table 4.6: EfficientNet-B0 Training History**
 
 | Epoch | Train Loss | Train Acc | Val Loss | Val Acc | LR |
 |-------|------------|-----------|----------|---------|-----|
@@ -91,6 +99,8 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 
 ### 4.4.1 FaceForensics++ Test Set Results
 
+**Table 4.7: Frame-Level Classification Metrics on FaceForensics++ Test Set**
+
 | Metric | XceptionNet | EfficientNet-B0 |
 |--------|-------------|-----------------|
 | Accuracy | 0.9467 | 0.9234 |
@@ -107,7 +117,7 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 
 ### 4.4.2 Confusion Matrix Analysis
 
-**XceptionNet Confusion Matrix:**
+**Table 4.8: XceptionNet Confusion Matrix**
 
 |  | Predicted Real | Predicted Fake |
 |--|----------------|----------------|
@@ -119,7 +129,7 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 - False Negatives (Fake classified as Real): 12
 - True Positives (Fake correctly classified): 788
 
-**EfficientNet-B0 Confusion Matrix:**
+**Table 4.9: EfficientNet-B0 Confusion Matrix**
 
 |  | Predicted Real | Predicted Fake |
 |--|----------------|----------------|
@@ -137,6 +147,8 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 - The slight class imbalance (200 real vs 800 fake) is handled well by both models
 
 ### 4.4.3 Cross-Dataset Validation (Celeb-DF)
+
+**Table 4.10: Cross-Dataset Performance on Celeb-DF v2**
 
 | Metric | XceptionNet | EfficientNet-B0 |
 |--------|-------------|-----------------|
@@ -156,6 +168,8 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 
 ### 4.5.1 Video Aggregation Methods
 
+**Table 4.11: Video-Level Aggregation Methods Comparison**
+
 | Method | XceptionNet Accuracy | EfficientNet-B0 Accuracy |
 |--------|---------------------|--------------------------|
 | Mean Probability | 0.9534 | 0.9312 |
@@ -168,6 +182,8 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 - Mean probability is a strong baseline with minimal complexity
 
 ### 4.5.2 Frame Sampling Rate Impact
+
+**Table 4.12: Frame Sampling Rate Impact on Accuracy and Inference Time**
 
 | Frames per Video | XceptionNet Accuracy | Inference Time (ms) |
 |------------------|---------------------|---------------------|
@@ -184,6 +200,8 @@ The EfficientNet-B0 model was fine-tuned from ImageNet pre-trained weights. Trai
 ## 4.6 Model Comparison
 
 ### 4.6.1 Performance Summary
+
+**Table 4.13: Comprehensive Model Comparison**
 
 | Criterion | XceptionNet | EfficientNet-B0 | Winner |
 |-----------|-------------|-----------------|--------|
@@ -219,6 +237,8 @@ GradCAM heatmaps were generated for 100 randomly selected test samples:
 4. Background inconsistencies provide additional detection signals
 
 ## 4.8 Performance Against Targets
+
+**Table 4.14: Performance Against Target Objectives**
 
 | Target | Threshold | XceptionNet | EfficientNet-B0 | Status |
 |--------|-----------|-------------|-----------------|--------|
