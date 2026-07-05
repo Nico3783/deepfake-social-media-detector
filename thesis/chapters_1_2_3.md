@@ -255,14 +255,18 @@ This project adopts an experimental research design with a structured deep learn
 - **Backbone:** Xception with depthwise separable convolutions
 - **Transfer Learning:** Pre-trained on ImageNet, fine-tuned on FaceForensics++
 - **Classification Head:** Global Average Pooling → Dropout(0.5) → Linear(2048, 2)
-- **Parameters:** ~22.9M
+- **Parameters:** 17,028,962 (17.03M)
+- **Model Size:** 64.96 MB
+- **Input Resolution:** 299×299
 
 ### EfficientNet-B0 (Secondary)
 
 - **Backbone:** EfficientNet-B0 with compound scaling
 - **Transfer Learning:** Pre-trained on ImageNet, fine-tuned on FaceForensics++
 - **Classification Head:** Global Average Pooling → Dropout(0.5) → Linear(1280, 2)
-- **Parameters:** ~5.3M
+- **Parameters:** 4,010,110 (4.01M)
+- **Model Size:** 15.3 MB
+- **Input Resolution:** 224×224
 
 ## 3.5 Training Configuration
 
@@ -273,13 +277,16 @@ This project adopts an experimental research design with a structured deep learn
 | Optimizer | Adam |
 | Learning Rate | 0.001 |
 | Weight Decay | 0.0001 |
-| Batch Size | 32 |
-| Max Epochs | 50 |
-| Early Stopping Patience | 10 |
+| Batch Size | 64 |
+| Max Epochs | 30 |
+| Early Stopping Patience | 7 |
 | Label Smoothing | 0.1 |
 | Loss Function | Label Smoothing Cross-Entropy |
 | Scheduler | ReduceLROnPlateau (factor=0.5, patience=5) |
 | Random Seed | 42 |
+| Mixed Precision | AMP (Automatic Mixed Precision) |
+| cuDNN Benchmark | Enabled |
+| Persistent Workers | Enabled |
 
 ### 3.5.1 Loss Function
 
