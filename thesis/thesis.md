@@ -80,10 +80,10 @@ The rapid proliferation of deepfake technology on social media platforms poses s
 
 ## List of Figures
 
-- Figure 4.1: XceptionNet Training Curves (`assets/xceptionnet_training.png`)
-- Figure 4.2: EfficientNet-B0 Training Curves (`assets/efficientnet_training.png`)
-- Figure 4.3: XceptionNet Confusion Matrix (`assets/xceptionnet_confusion_matrix.png`)
-- Figure 4.4: EfficientNet-B0 Confusion Matrix (`assets/efficientnet_confusion_matrix.png`)
+- Figure 4.1: XceptionNet Training Curves (`assets/XceptionNet_training_curves.png`)
+- Figure 4.2: EfficientNet-B0 Training Curves (`assets/EfficientNet-B0_training_curves.png`)
+- Figure 4.3: XceptionNet Confusion Matrix (`assets/XceptionNet_confusion_matrix.png`)
+- Figure 4.4: EfficientNet-B0 Confusion Matrix (`assets/EfficientNet-B0_confusion_matrix.png`)
 - Figure 4.5: ROC Curves Comparison (`assets/roc_comparison.png`)
 - Figure 4.6: Model Comparison Bar Charts (`assets/model_comparison.png`)
 
