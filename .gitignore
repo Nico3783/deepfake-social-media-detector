@@ -58,6 +58,7 @@ reports/final_project_report/
 *.log
 tmp/
 logs/
+outputs/temp/
 
 # OS files
 .DS_Store

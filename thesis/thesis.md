@@ -80,6 +80,15 @@ The rapid proliferation of deepfake technology on social media platforms poses s
 
 ## List of Figures
 
+- Figure 3.1: System Architecture (`assets/ch3_system_architecture.png`)
+- Figure 3.2: Preprocessing Pipeline (`assets/ch3_preprocessing_pipeline.png`)
+- Figure 3.3: XceptionNet Architecture (`assets/ch3_xceptionnet_architecture.png`)
+- Figure 3.4: EfficientNet-B0 Architecture (`assets/ch3_efficientnet_architecture.png`)
+- Figure 3.5: Transfer Learning Process (`assets/ch3_transfer_learning.png`)
+- Figure 3.6: Training Pipeline (`assets/ch3_training_pipeline.png`)
+- Figure 3.7: Evaluation Pipeline (`assets/ch3_evaluation_pipeline.png`)
+- Figure 3.8: Video Aggregation Strategies (`assets/ch3_video_aggregation.png`)
+- Figure 3.9: Inference Pipeline (`assets/ch3_inference_pipeline.png`)
 - Figure 4.1: XceptionNet Training Curves (`assets/XceptionNet_training_curves.png`)
 - Figure 4.2: EfficientNet-B0 Training Curves (`assets/EfficientNet-B0_training_curves.png`)
 - Figure 4.3: XceptionNet Confusion Matrix (`assets/XceptionNet_confusion_matrix.png`)

@@ -37,6 +37,12 @@ from src.models.model_factory import load_model
 from src.inference.predict_video import VideoPredictor
 from src.inference.predict_image import ImagePredictor
 
+try:
+    import yt_dlp
+    YTDLP_AVAILABLE = True
+except ImportError:
+    YTDLP_AVAILABLE = False
+
 # ---------------------------------------------------------------------------
 # Page config (must be first Streamlit call)
 # ---------------------------------------------------------------------------
@@ -515,35 +521,52 @@ def page_home():
     arch_col1, arch_col2 = st.columns([2, 1])
 
     with arch_col1:
+        svg = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" '
+            'style="width:100%;max-width:400px;display:block;margin:0 auto;">'
+            '<style>'
+            'text{font-family:"Share Tech Mono",monospace;fill:#00ff41;font-size:13px;}'
+            '.label{font-size:11px;fill:#6b7280;}'
+            'rect{fill:#111827;stroke:#00ff41;stroke-width:1.5;rx:4;}'
+            'line{stroke:#00ff41;stroke-width:1.5;}'
+            'polygon{fill:#00ff41;}'
+            '</style>'
+            # VIDEO INPUT
+            '<rect x="100" y="0" width="200" height="36"/>'
+            '<text x="200" y="23" text-anchor="middle">VIDEO INPUT</text>'
+            '<line x1="200" y1="36" x2="200" y2="60"/>'
+            '<polygon points="195,56 205,56 200,66"/>'
+            # FRAME EXTRACTOR
+            '<rect x="60" y="66" width="280" height="52"/>'
+            '<text x="200" y="87" text-anchor="middle">FRAME EXTRACTOR</text>'
+            '<text x="200" y="105" text-anchor="middle" class="label">OpenCV · 1 FPS sampling</text>'
+            '<line x1="200" y1="118" x2="200" y2="142"/>'
+            '<polygon points="195,138 205,138 200,148"/>'
+            # FACE DETECTOR
+            '<rect x="60" y="148" width="280" height="52"/>'
+            '<text x="200" y="169" text-anchor="middle">FACE DETECTOR</text>'
+            '<text x="200" y="187" text-anchor="middle" class="label">OpenDNN · face localization</text>'
+            '<line x1="200" y1="200" x2="200" y2="224"/>'
+            '<polygon points="195,220 205,220 200,230"/>'
+            # CNN MODEL
+            '<rect x="60" y="230" width="280" height="52"/>'
+            '<text x="200" y="251" text-anchor="middle">CNN MODEL</text>'
+            '<text x="200" y="269" text-anchor="middle" class="label">XceptionNet / EfficientNet</text>'
+            '<line x1="200" y1="282" x2="200" y2="306"/>'
+            '<polygon points="195,302 205,302 200,312"/>'
+            # AGGREGATOR
+            '<rect x="60" y="312" width="280" height="52"/>'
+            '<text x="200" y="333" text-anchor="middle">AGGREGATOR</text>'
+            '<text x="200" y="351" text-anchor="middle" class="label">Mean / Majority / Confidence</text>'
+            '<line x1="200" y1="364" x2="200" y2="388"/>'
+            '<polygon points="195,384 205,384 200,394"/>'
+            # REAL/FAKE
+            '<rect x="130" y="394" width="140" height="36" stroke-width="2"/>'
+            '<text x="200" y="417" text-anchor="middle" style="font-size:14px;font-weight:bold;">REAL / FAKE</text>'
+            '</svg>'
+        )
         st.markdown(
-            '<div class="glow-border" style="background:#111827;">'
-            '<pre style="color:#00ff41; font-family:Share Tech Mono,monospace; '
-            'font-size:0.8rem; line-height:1.6; margin:0;">'
-            "  VIDEO INPUT\n"
-            "       │\n"
-            "       ▼\n"
-            "  ┌─────────────────┐\n"
-            "  │ FRAME EXTRACTOR  │  OpenCV — 1 FPS sampling\n"
-            "  └────────┬────────┘\n"
-            "           │\n"
-            "           ▼\n"
-            "  ┌─────────────────┐\n"
-            "  │  FACE DETECTOR   │  MTCNN — face localization\n"
-            "  └────────┬────────┘\n"
-            "           │\n"
-            "           ▼\n"
-            "  ┌─────────────────┐\n"
-            "  │  CNN MODEL       │  XceptionNet / EfficientNet\n"
-            "  └────────┬────────┘\n"
-            "           │\n"
-            "           ▼\n"
-            "  ┌─────────────────┐\n"
-            "  │  AGGREGATOR      │  Mean / Majority / Confidence\n"
-            "  └────────┬────────┘\n"
-            "           │\n"
-            "           ▼\n"
-            "     REAL  or  FAKE\n"
-            "</pre></div>",
+            f'<div class="glow-border" style="background:#111827;padding:20px;">{svg}</div>',
             unsafe_allow_html=True,
         )
 
@@ -643,6 +666,36 @@ def page_analyze():
 
     # ── VIDEO TAB ──
     with tab_video:
+        # YouTube URL input
+        youtube_url = st.text_input(
+            "YouTube URL",
+            placeholder="https://www.youtube.com/watch?v=...",
+            help="Paste a YouTube video URL to analyze",
+        )
+
+        if youtube_url and YTDLP_AVAILABLE:
+            if st.button("DOWNLOAD & ANALYZE", key="run_youtube", use_container_width=True):
+                with st.spinner("Downloading video from YouTube..."):
+                    temp_dir = Path("outputs") / "temp" / "youtube"
+                    video_path, error = _download_youtube_video(youtube_url, temp_dir)
+
+                    if error:
+                        st.error(f"YouTube Error: {error}")
+                    else:
+                        st.success(f"Downloaded: {video_path.name}")
+                        st.video(str(video_path))
+                        _run_video_analysis(video_path, model_choice, threshold, aggregation)
+
+        elif youtube_url and not YTDLP_AVAILABLE:
+            st.warning("yt-dlp is not installed. Run: `pip install yt-dlp` to enable YouTube analysis.")
+
+        st.markdown(
+            '<div style="text-align:center; color:#6b7280; font-family:JetBrains Mono,monospace; '
+            'font-size:0.75rem; margin: 10px 0;">— OR —</div>',
+            unsafe_allow_html=True,
+        )
+
+        # File upload
         video_file = st.file_uploader(
             "Upload Video",
             type=["mp4", "avi", "mov", "mkv"],
@@ -735,6 +788,55 @@ def page_analyze():
 
             if st.button("RUN BATCH ANALYSIS", use_container_width=True):
                 _run_batch_analysis(batch_files, model_choice, threshold, aggregation)
+
+
+def _download_youtube_video(url: str, output_dir: Path) -> tuple[Path | None, str | None]:
+    """Download a YouTube video and return (file_path, error_message).
+
+    Downloads the best quality mp4 video under 720p to keep files manageable.
+    """
+    if not YTDLP_AVAILABLE:
+        return None, "yt-dlp is not installed. Run: pip install yt-dlp"
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    ydl_opts = {
+        "format": "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best",
+        "outtmpl": str(output_dir / "%(title)s.%(ext)s"),
+        "merge_output_format": "mp4",
+        "quiet": True,
+        "no_warnings": True,
+        "socket_timeout": 30,
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=True)
+            title = info.get("title", "video")
+            duration = info.get("duration", 0)
+
+            # Find the downloaded file
+            candidates = list(output_dir.glob(f"{title}.*"))
+            if not candidates:
+                # Try partial match
+                candidates = list(output_dir.glob("*.mp4"))
+
+            if candidates:
+                return candidates[0], None
+            else:
+                return None, "Download completed but file not found"
+    except yt_dlp.utils.DownloadError as e:
+        error_msg = str(e)
+        if "Private video" in error_msg:
+            return None, "This video is private and cannot be accessed"
+        elif "Video unavailable" in error_msg:
+            return None, "This video is unavailable"
+        elif "Sign in" in error_msg:
+            return None, "This video requires sign-in to access"
+        else:
+            return None, f"Download failed: {error_msg[:200]}"
+    except Exception as e:
+        return None, f"Unexpected error: {str(e)[:200]}"
 
 
 def _load_trained_model(model_choice: str):
