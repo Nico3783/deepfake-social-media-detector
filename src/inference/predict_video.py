@@ -67,7 +67,7 @@ class VideoPredictor:
         self.target_size = target_size
 
         # Initialize pipeline components
-        self.frame_extractor = FrameExtractor(sample_rate=frame_sample_rate)
+        self.frame_extractor = FrameExtractor(sampling_rate=frame_sample_rate)
         self.face_detector = FaceDetector()
         self.face_cropper = FaceCropper()
         self.image_resizer = ImageResizer(target_size=target_size)
